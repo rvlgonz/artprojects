@@ -11,10 +11,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        const body = JSON.parse(event.body);
-        // expects { fileName, fileData, contentType }
-        // fileData is the file as a base64 string
-        const { fileName, fileData, contentType } = body;
+        const { fileName, fileData, contentType } = JSON.parse(event.body);
 
         const buffer = Buffer.from(fileData, "base64");
         const filePath = `messages/${Date.now()}-${fileName}`;
