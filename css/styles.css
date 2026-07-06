@@ -5953,7 +5953,7 @@ textarea.form-control-lg {
   justify-content: center;
   padding: 0;
   margin-right: 15%;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   margin-left: 15%;
   list-style: none;
 }
@@ -11038,8 +11038,26 @@ section.resume-section .resume-section-content-center {
 
 #aboutColor {
     min-height: 100vh;
+    overflow: hidden;
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+#aboutVal {
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#aboutVal img {
+    max-height: 100vh;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 #about {
