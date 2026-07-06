@@ -66,15 +66,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // TRACKS
     const tracks = [
         { title: "Chicago, 2026 (1)", src: "assets/calls/Telephone007_mp3.mp3" },
-        { title: "Chicago, 2026 (2)", src: "assets/audio/Telephone010_mp3.mp3" },
-        { title: "Chicago, 2026 (3)", src: "assets/audio/Telephone011_mp3.mp3" },
-        { title: "Chicago, 2026 (4)", src: "assets/audio/Telephone018_mp3.mp3" },
-        { title: "Chicago, 2026 (5)", src: "assets/audio/Telephone023_mp3.mp3" },
-        { title: "Chicago, 2026 (6)", src: "assets/audio/Telephone027_mp3.mp3" },
-        { title: "Chicago, 2026 (7)", src: "assets/audio/Telephone031_mp3.mp3" },
-        { title: "Chicago, 2026 (8)", src: "assets/audio/Telephone032_mp3.mp3" },
-        { title: "Chicago, 2026 (9)", src: "assets/audio/Telephone033_mp3.mp3" },
-        { title: "Chicago, 2026 (10)", src: "assets/audio/Telephone035_mp3.mp3" },
+        { title: "Chicago, 2026 (2)", src: "assets/calls/Telephone010_mp3.mp3" },
+        { title: "Chicago, 2026 (3)", src: "assets/calls/Telephone011_mp3.mp3" },
+        { title: "Chicago, 2026 (4)", src: "assets/calls/Telephone018_mp3.mp3" },
+        { title: "Chicago, 2026 (5)", src: "assets/calls/Telephone023_mp3.mp3" },
+        { title: "Chicago, 2026 (6)", src: "assets/calls/Telephone027_mp3.mp3" },
+        { title: "Chicago, 2026 (7)", src: "assets/calls/Telephone031_mp3.mp3" },
+        { title: "Chicago, 2026 (8)", src: "assets/calls/Telephone032_mp3.mp3" },
+        { title: "Chicago, 2026 (9)", src: "assets/calls/Telephone033_mp3.mp3" },
+        { title: "Chicago, 2026 (10)", src: "assets/calls/Telephone035_mp3.mp3" },
     ];
 
     let playOrder = tracks.map((_, i) => i);
@@ -146,9 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
         player.play();
     });
 
-    player.addEventListener("ended", () => {
-        nextBtn.click();
-    });
+    // player.addEventListener("ended", () => {
+    //     nextBtn.click();
+    // });
 
     loadCurrent();
 
