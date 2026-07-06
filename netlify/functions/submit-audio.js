@@ -12,24 +12,32 @@ exports.handler = async function(event) {
 
     try {
         const { fileName, fileData, contentType } = JSON.parse(event.body);
+        console.log("fileName:", fileName);
+        console.log("contentType:", contentType);
+        console.log("fileData length:", fileData ? fileData.length : "null");
 
         const buffer = Buffer.from(fileData, "base64");
         const filePath = `messages/${Date.now()}-${fileName}`;
+        console.log("uploading to path:", filePath);
 
         const { error: uploadError } = await supabase.storage
             .from("audio-messages")
             .upload(filePath, buffer, { contentType });
 
+        console.log("upload error:", uploadError);
         if (uploadError) throw uploadError;
 
         const { data } = supabase.storage
             .from("audio-messages")
             .getPublicUrl(filePath);
 
+        console.log("public url:", data.publicUrl);
+
         const { error: dbError } = await supabase
             .from("audio_messages")
             .insert([{ file_url: data.publicUrl, file_name: fileName }]);
 
+        console.log("db error:", dbError);
         if (dbError) throw dbError;
 
         return {
@@ -37,6 +45,7 @@ exports.handler = async function(event) {
             body: JSON.stringify({ success: true, url: data.publicUrl })
         };
     } catch (err) {
+        console.log("Caught error:", err.message);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: err.message })
