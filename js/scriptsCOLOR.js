@@ -245,24 +245,22 @@ function showContactSheet(submittedColor, trackTitle) {
 }
 
     // SINGLE submit handler
-    submitColorBtn.addEventListener("click", function() {
-        const currentTrack = tracks[playOrder[currentIndex]];
-        const chosenColor = colorPicker.color.hexString;
+submitColorBtn.addEventListener("click", function() {
+    const currentTrack = tracks[playOrder[currentIndex]];
+    const chosenColor = colorPicker.color.hexString;
 
-        console.log("track:", currentTrack.title, "color:", chosenColor);
+    try {
+        await fetch("/.netlify/functions/submit-color", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
+        });
+    } catch (err) {
+        console.error("Color submission failed:", err);
+    }
 
-        try {
-            await fetch("/.netlify/functions/submit-color", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
-            });
-        } catch (err) {
-            console.error("Color submission failed:", err);
-        }
-
-        showContactSheet(chosenColor, currentTrack.title);
-    });
+    showContactSheet(chosenColor, currentTrack.title);
+});
 
     nextTrackBtn.addEventListener("click", function() {
         currentIndex = (currentIndex + 1) % playOrder.length;
