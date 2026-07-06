@@ -175,21 +175,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const contactSheetGrid = document.getElementById("contactSheetGrid");
     const nextTrackBtn = document.getElementById("nextTrackBtn");
 
-    // DUMMY SUBMISSIONS — replace with real API data later
-    const priorSubmissions = [
-        { track: "Chicago, 2026 (1)", color: "#c94a2b" },
-        { track: "Chicago, 2026 (1)", color: "#3a7bd5" },
-        { track: "Chicago, 2026 (1)", color: "#f0c27f" },
-        { track: "Chicago, 2026 (1)", color: "#a4814c" },
-        { track: "Chicago, 2026 (1)", color: "#3d917b" },
-        { track: "Chicago, 2026 (1)", color: "#952758" },
-        { track: "Chicago, 2026 (1)", color: "#54452e" },
-        { track: "Chicago, 2026 (1)", color: "#73b67a" },
-        { track: "Chicago, 2026 (1)", color: "#b356a2" },
-        { track: "Chicago, 2026 (1)", color: "#fb9c30" },
-        { track: "Chicago, 2026 (2)", color: "#2ecc71" },
-        { track: "Chicago, 2026 (3)", color: "#9b59b6" },
-    ];
+
+
 
     colorPicker.on("color:change", function(color) {
         if (hexDisplay) hexDisplay.textContent = color.hexString;
@@ -198,50 +185,40 @@ document.addEventListener("DOMContentLoaded", function () {
         if (submitConfirm) submitConfirm.style.display = "none";
     });
 
-function showContactSheet(submittedColor, trackTitle) {
-    // Get all previous submissions for this track
-    const relevant = priorSubmissions.filter(s => s.track === trackTitle);
+async function showContactSheet(submittedColor, trackTitle) {
+    // fetch real submissions for this track from supabase
+    let colors = [submittedColor];
 
-    // Add the current submission
-    relevant.push({
-        track: trackTitle,
-        color: submittedColor
-    });
+    try {
+        const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
+        const data = await response.json();
+        if (data.colors) {
+            colors = data.colors;
+        }
+    } catch (err) {
+        console.error("Failed to fetch colors:", err);
+        // falls back to just showing the submitted color
+    }
 
-    // Switch views before measuring
     pickerView.style.display = "none";
     contactSheetView.style.display = "block";
-    contactSheetView.style.backgroundColor = "#f8f9fa";
-
-    // Clear previous tiles
     contactSheetGrid.innerHTML = "";
-
-    // Force grid layout
     contactSheetGrid.style.display = "grid";
     contactSheetGrid.style.gap = "2px";
 
-    // Wait one frame so the browser lays out the grid
-            requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+        const n = colors.length;
+        const cols = Math.ceil(Math.sqrt(n));
+        const rows = Math.ceil(n / cols);
+        contactSheetGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        contactSheetGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
-            const n = relevant.length;
-
-            // Find a roughly square arrangement
-            const cols = Math.ceil(Math.sqrt(n));
-            const rows = Math.ceil(n / cols);
-
-            contactSheetGrid.style.gridTemplateColumns =
-                `repeat(${cols}, 1fr)`;
-
-            contactSheetGrid.style.gridTemplateRows =
-                `repeat(${rows}, 1fr)`;
-
-            relevant.forEach(sub => {
-                const tile = document.createElement("div");
-                tile.style.backgroundColor = sub.color;
-                contactSheetGrid.appendChild(tile);
-            });
-
+        colors.forEach(color => {
+            const tile = document.createElement("div");
+            tile.style.backgroundColor = color;
+            contactSheetGrid.appendChild(tile);
         });
+    });
 }
 
     // SINGLE submit handler
