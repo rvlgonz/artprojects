@@ -4,3 +4,4 @@ node_modules/
 .env
 *.log
 supabase/
+node_modules/
