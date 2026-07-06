@@ -61,21 +61,34 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
     // TRACKS
-    const tracks = [
-        { title: "Chicago, 2026 (1)", src: "assets/calls/Telephone007_mp3.mp3" },
-        { title: "Chicago, 2026 (2)", src: "assets/calls/Telephone010_mp3.mp3" },
-        { title: "Chicago, 2026 (3)", src: "assets/calls/Telephone011_mp3.mp3" },
-        { title: "Chicago, 2026 (4)", src: "assets/calls/Telephone018_mp3.mp3" },
-        { title: "Chicago, 2026 (5)", src: "assets/calls/Telephone023_mp3.mp3" },
-        { title: "Chicago, 2026 (6)", src: "assets/calls/Telephone027_mp3.mp3" },
-        { title: "Chicago, 2026 (7)", src: "assets/calls/Telephone031_mp3.mp3" },
-        { title: "Chicago, 2026 (8)", src: "assets/calls/Telephone032_mp3.mp3" },
-        { title: "Chicago, 2026 (9)", src: "assets/calls/Telephone033_mp3.mp3" },
-        { title: "Chicago, 2026 (10)", src: "assets/calls/Telephone035_mp3.mp3" },
-    ];
+let tracks = [];
+    try {
+        const response = await fetch("/.netlify/functions/get-tracks");
+        const data = await response.json();
+        tracks = data.tracks;
+    } catch (err) {
+        console.error("Failed to load tracks, using fallback:", err);
+        tracks = [
+            { title: "Chicago, 2026 (1)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone007_mp3.mp3" },
+            { title: "Chicago, 2026 (2)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone010_mp3.mp3" },
+            { title: "Chicago, 2026 (3)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone011_mp3.mp3" },
+            { title: "Chicago, 2026 (4)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone018_mp3.mp3" },
+            { title: "Chicago, 2026 (5)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone023_mp3.mp3" },
+            { title: "Chicago, 2026 (6)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone027_mp3.mp3" },
+            { title: "Chicago, 2026 (7)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone031_mp3.mp3" },
+            { title: "Chicago, 2026 (8)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone032_mp3.mp3" },
+            { title: "Chicago, 2026 (9)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone033_mp3.mp3" },
+            { title: "Chicago, 2026 (10)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone035_mp3.mp3" },
+        ];
+    }
+
+    if (tracks.length === 0) {
+        console.error("No tracks loaded");
+        return;
+    }
 
     let playOrder = tracks.map((_, i) => i);
     let currentIndex = 0;
