@@ -2,3 +2,5 @@
 *.psd
 node_modules/
 .env
+*.log
+supabase/
