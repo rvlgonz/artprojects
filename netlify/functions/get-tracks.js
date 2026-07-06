@@ -8,14 +8,16 @@ const supabase = createClient(
 exports.handler = async function(event) {
     try {
         const { data, error } = await supabase
-    .from("tracks")
-    .select("title, file_name")
-    .order("play_order", { ascending: true });
+            .from("tracks")
+            .select("title, file_name")
+            .order("play_order", { ascending: true });
 
-const tracks = data.map(row => ({
-    title: row.title,
-    src: `${process.env.SUPABASE_URL}/storage/v1/object/public/calls/${row.file_name}`
-}));
+        if (error) throw error;
+
+        const tracks = data.map(row => ({
+            title: row.title,
+            src: `${process.env.SUPABASE_URL}/storage/v1/object/public/calls/${row.file_name}`
+        }));
 
         return {
             statusCode: 200,
