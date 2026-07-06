@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>RG - Telephone</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5..112.5,300..900;1,5..1200,87.5..112.5,300..900&display=swap" rel="stylesheet"/>
+        <!--link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" /--> 
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <span class="d-block d-lg-none"><img class="img-fluid img-nav rounded-circle mx-auto mb-0" src="assets/img/logo.jpg" alt="..." /></span>
+                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/logo.jpg" alt="..." /></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">instructions</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#messages">messages</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#otherprojects">other projects</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#bio">info</a></li>
+                    <!--li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li-->
+                </ul>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container-fluid p-0">
+            <div class="d-flex flex-column" style="padding-left: 2rem;">
+            <!-- About-->
+            <section class="resume-section" id="about">
+                <div class="resume-section-content">
+                    <h1 class="mb-0">
+                        the
+                        <span class="text-primary">telephone</span>
+                    </h1>
+                    <div class="subheading mb-3">
+                        take a message, leave a message
+                         <!--<a href="mailto:name@email.com">name@email.com</a>-->
+                    </div>
+                    <h4>1. Pick up the handset, listen for instructions.</h4>
+                    <h4>2. Listen to the last message recorded</h4>
+                    <h6>Please be aware, the phone isn't monitored or censored, parents listen once before you let your kids.</h6>
+                    <h4>3.1 Dial "0" to record your own message</h4>
+                    <h6>Respond to previous, share what's on your mind, talk about a loved one, etc., etc.</h6>
+                    <h6>Please refrain from making deragatory or demeaning comments, no one needs a record of you being cruel.</h6>
+                    <h6>Please do not include any identifying information. Strangers are gonna hear this.</h6>
+                    <h4>3.2 Alternatively, dial "3" to listen to a randomized series of prior messages.</h4>
+                    <h6>Dialing "0" at any point allows you to record, making yours the most recent message someone will hear next.</h6>
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div class="flex-grow-1">
+                            <img src="assets/img/Using_A_Vintage_Rotary_Dial_Telephone_Western_Electric_Model_500_Phone.gif" class="img-fluid" style="padding-top: 1rem; padding-top: 1rem;">
+                        </img>
+                        </div>
+                    </div>
+                    <!-- <div class="social-icons">
+                        <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
+                        <a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
+                        <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    </div-->
+                </div>
+            </section>
+            <hr class="m-0" />
+<!-- Messages -->
+<section class="resume-section" id="messages">
+    <div class="resume-section-content">
+        <h2 class="mb-5">Left messages</h2>
+        <audio id="messagePlayer" controls class="w-100 mb-3">
+            <source id="messageSource" src="" type="audio/mpeg" />
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="d-flex align-items-center mb-4">
+            <button id="shuffleBtn" class="btn btn-primary me-3">
+                <i class="fas fa-random"></i> Shuffle
+            </button>
+            <button id="prevBtn" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button id="nextBtn" class="btn btn-outline-secondary">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+                <div id="nowPlaying" class="text-primary fw-bold"></div>
+
+        <!--ADD FOR COLOR PICKER-->
+<!--<div class="mt-5">
+    <p class="mb-2">what color is this message?</p>
+    <div id="color-picker-container" class="mb-3"></div>
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <div id="color-swatch" style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 2px solid #dee2e6; background-color: #bd5d38;"></div>
+        <span id="hex-display" style="font-family: 'Atkinson Hyperlegible Mono', monospace; font-size: 1.1rem; color: #212529;">#bd5d38</span>
+    </div>
+    <button id="submitColorBtn" class="btn btn-primary">submit color</button>
+    <p id="submitConfirm" class="mt-2 text-success" style="display: none; font-family: 'Atkinson Hyperlegible Mono', monospace;">recorded.</p>
+</div-->
+        <!--END COLOR PICKER-->
+
+        <!--ul id="playlist" class="list-group mt-4"-->
+            <!-- populated by JS -->
+        </ul>
+    </div>
+</section>
+
+            <!-- Experience-->
+            <!--section class="resume-section" id="experience">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">May be of interest</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Valentines</h3>
+                            <div class="subheading mb-3">Kiss your friends</div>
+                            <p>Kiss your friends</p->
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">2019-2020</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Web Developer</h3>
+                            <div class="subheading mb-3">Intelitec Solutions</div>
+                            <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">December 2011 - March 2013</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Junior Web Designer</h3>
+                            <div class="subheading mb-3">Shout! Media Productions</div>
+                            <p>Podcasting operational change management inside of workflows to establish a framework. Taking seamless key performance indicators offline to maximise the long tail. Keeping your eye on the ball while performing a deep dive on the start-up mentality to derive convergence on cross-platform integration.</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">July 2010 - December 2011</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Web Design Intern</h3>
+                            <div class="subheading mb-3">Shout! Media Productions</div>
+                            <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary">September 2008 - June 2010</span></div>
+                    </div>
+                </div>
+            </section-->
+            <hr class="m-0" />
+            <!-- Education-->
+            <section class="resume-section" id="otherprojects">
+                <div class="resume-section-content">
+                    <h3 class="mb-5">Possibly of interest</h4>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h4 class="mb-0"><a href="VoiceColor.html">This is the color of your voice</a></h4>
+                            <!--div class="subheading mb-3">Technology Magnet Program</div-->
+                            <p style="font-size: .75rem;">Sometimes it's just too blood red</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary" style="font-size: 1rem;">2026</span></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div class="flex-grow-1">
+                            <h4 class="mb-0"><a href="valentine.html">Valentines</a></h4>
+                            <!--div class="subheading mb-3">Bachelor of Science</div>
+                            <div>Computer Science - Web Development Track</div-->
+                            <p style="font-size: .75rem;">Kiss your friends</p>
+                        </div>
+                        <div class="flex-shrink-0"><span class="text-primary" style="font-size: 1rem;">2019-2021</span></div>
+                    </div>
+                </div>
+            </section>
+            <hr class="m-0" />
+            </section>
+                <section class="resume-section" id="bio">
+                <div class="resume-section-content">
+                    <h3 class="mb-5">A little about what's going on here</h3>
+                    <div class="row d-flex flex-column flex-md-row justify-content-between">
+                    <h5>I built this phone to make a chain of messages into infinity or just to provide a nice chance for folks to hear the voice of another person walking around this earth.</h5>
+                        <div class="-row flex flex-column flex-md-row justify-content-between mb-5" style="font-family: 'Atkinson Hyperlegible Mono', monospace; color: #6c757d">Brief bio: I'm a neuroscientist based in NYC and orginially from Chicagoland.</div>
+                        <h5>If you have any questions, comments, concerns, or nice things you want to say to me, email me at <a href="mailto:rvlgonzalez@gmail.com">rvlgonzalez@gmail.com</a> or text me if you have my number.</h5>
+                    </div>
+            </section>
+</section>
+            <!-- Skills>
+            <section class="resume-section" id="skills">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Skills</h2>
+                    <div class="subheading mb-3">Programming Languages & Tools</div>
+                        <ul class="list-inline dev-icons">
+                        <li class="list-inline-item"><i class="fab fa-html5"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-angular"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-react"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-node-js"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-sass"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-less"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-wordpress"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-gulp"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-grunt"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-npm"></i></li>
+                    </ul>
+                    <div class="subheading mb-3">Workflow</div>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Mobile-First, Responsive Design
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Cross Browser Testing & Debugging
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Cross Functional Teams
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Agile Development & Scrum
+                        </li>
+                    </ul>
+                    <div id="color-picker-container"></div>
+                </div>
+            </section-->
+            <hr class="m-0">
+            <!-- Interests-->
+            <!--section class="resume-section" id="interests">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Interests</h2>
+                    <p>Apart from being a web developer, I enjoy most of my time being outdoors. In the winter, I am an avid skier and novice ice climber. During the warmer months here in Colorado, I enjoy mountain biking, free climbing, and kayaking.</p>
+                    <p class="mb-0">When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, I am an aspiring chef, and I spend a large amount of my free time exploring the latest technology advancements in the front-end web development world.</p>
+                </div>
+            </section>
+            <hr class="m-0" /-->
+            <!-- Awards-->
+            <!--section class="resume-section" id="awards">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Awards & Certifications</h2>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            Google Analytics Certified Developer
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            Mobile Web Specialist - Google Certification
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            1
+                            <sup>st</sup>
+                            Place - University of Colorado Boulder - Emerging Tech Competition 2009
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            1
+                            <sup>st</sup>
+                            Place - University of Colorado Boulder - Adobe Creative Jam 2008 (UI Design Category)
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            2
+                            <sup>nd</sup>
+                            Place - University of Colorado Boulder - Emerging Tech Competition 2008
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            1
+                            <sup>st</sup>
+                            Place - James Buchanan High School - Hackathon 2006
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            3
+                            <sup>rd</sup>
+                            Place - James Buchanan High School - Hackathon 2005
+                        </li>
+                    </ul>
+                </div>
+            </section-->
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
