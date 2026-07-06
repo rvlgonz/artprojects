@@ -24,6 +24,7 @@ exports.handler = async function(event) {
             body: JSON.stringify({ tracks })
         };
     } catch (err) {
+        console.log("Error:", err.message);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: err.message })
