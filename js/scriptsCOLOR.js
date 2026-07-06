@@ -7,6 +7,11 @@
 // Scripts
 // 
 
+history.scrollRestoration = "manual";
+
+window.addEventListener("load", () => {
+    window.scrollTo(0, 0);
+});
 
 
 window.addEventListener('DOMContentLoaded', event => {
@@ -59,8 +64,59 @@ window.addEventListener('DOMContentLoaded', event => {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
+const audioFileInput = document.getElementById("audioFileInput");
+const uploadAudioBtn = document.getElementById("uploadAudioBtn");
+const uploadStatus = document.getElementById("uploadStatus");
+
+if (uploadAudioBtn) {
+    uploadAudioBtn.addEventListener("click", async function() {
+        const file = audioFileInput.files[0];
+        
+        if (!file) {
+            uploadStatus.textContent = "please select a file first.";
+            uploadStatus.style.display = "block";
+            return;
+        }
+
+        uploadStatus.textContent = "uploading...";
+        uploadStatus.style.display = "block";
+
+        try {
+            const base64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(",")[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+
+            const response = await fetch("/.netlify/functions/submit-audio", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    fileName: file.name,
+                    fileData: base64,
+                    contentType: file.type
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                uploadStatus.textContent = "received. thank you.";
+                audioFileInput.value = "";
+            } else {
+                uploadStatus.textContent = "something went wrong. try again.";
+                console.error("Upload error:", data.error);
+            }
+        } catch (err) {
+            uploadStatus.textContent = "something went wrong. try again.";
+            console.error("Upload failed:", err);
+        }
+    }); // closes addEventListener
+} // closes if (uploadAudioBtn)
+
     // TRACKS
-let tracks = [];
+    let tracks = [];
     try {
         const response = await fetch("/.netlify/functions/get-tracks");
         const data = await response.json();
@@ -183,8 +239,6 @@ let tracks = [];
     const contactSheetView = document.getElementById("contactSheetView");
     const contactSheetGrid = document.getElementById("contactSheetGrid");
     const nextTrackBtn = document.getElementById("nextTrackBtn");
-
-
 
 
     colorPicker.on("color:change", function(color) {
