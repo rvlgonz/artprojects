@@ -251,12 +251,15 @@ function showContactSheet(submittedColor, trackTitle) {
 
         console.log("track:", currentTrack.title, "color:", chosenColor);
 
-        // future POST goes here:
-        // fetch("/submit-color", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
-        // });
+        try {
+            await fetch("/.netlify/functions/submit-color", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
+            });
+        } catch (err) {
+            console.error("Color submission failed:", err);
+        }
 
         showContactSheet(chosenColor, currentTrack.title);
     });
