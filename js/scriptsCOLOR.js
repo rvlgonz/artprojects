@@ -219,7 +219,7 @@ if (uploadAudioBtn) {
 
     // COLOR PICKER
     const colorPicker = new iro.ColorPicker("#color-picker-container", {
-        width: 270,
+        //width: 270,
         color: "#ffffff",
         borderWidth: 2,
         borderColor: "#989898",
@@ -314,3 +314,4 @@ async function showContactSheet(submittedColor, trackTitle) {
     });
 
 }); // end DOMContentLoaded
+

@@ -5806,7 +5806,6 @@ textarea.form-control-lg {
 .carousel-inner {
   position: relative;
   width: 100%;
-
   overflow: hidden;
 }
 
@@ -10990,7 +10989,7 @@ section.resume-section {
 section.carousel-section {
   display: flex;
   align-items: center;
-  padding-left: 2rem;
+  /*padding-left: 2rem;*/
   padding-right: 0rem;
   padding-top: 0rem;
   padding-bottom: 0rem;
@@ -11049,13 +11048,13 @@ section.resume-section .resume-section-content-center {
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 #aboutVal img {
     max-height: 100vh;
     max-width: 100%;
-    width: auto;
+    width: 100%;
     height: auto;
     object-fit: contain;
 }
@@ -11101,3 +11100,52 @@ section.resume-section .resume-section-content-center {
     height: 100%;
     gap: 2px;
 }
+
+
+#color-picker-container canvas {
+    max-width: 100%;
+}
+
+
+@media (max-width: 991px) {
+    body {
+        padding-left: 0 !important;
+        padding-top: 4rem !important;
+    }
+    
+    #sideNav {
+        width: 100% !important;
+    }
+    
+    .carousel {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #color-picker-container {
+        transform: scale(0.85);
+        transform-origin: left top;
+    }
+    #submitColorBtn {
+        margin-left: -3.5rem;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .carousel, .carousel-inner, .carousel-item {
+        height: auto;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .carousel-control-prev {
+        left: 3rem;
+    }
+    .carousel-control-next {
+        right: 1rem;
+    }
+}
+  

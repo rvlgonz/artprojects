@@ -140,7 +140,7 @@ function renderPlaylist() {
     loadCurrent();
 
     const colorPicker = new iro.ColorPicker("#color-picker-container", {
-    width: 220,
+    //width: 220,
     color: "#bd5d38",
     borderWidth: 1,
     borderColor: "#dee2e6",
@@ -196,3 +196,4 @@ function renderPlaylist() {
 //colorPicker.on("color:change", function(color) {
  // console.log(color.hexString); // e.g. "#ff0000"
 //});
+
