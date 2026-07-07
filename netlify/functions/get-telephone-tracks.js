@@ -15,9 +15,9 @@ exports.handler = async function(event) {
 
         const tracks = data
             .filter(file => file.name.endsWith(".mp3"))
-            .map((file, i) => ({
-                title: `Message ${i + 1}`,
-                src: `${process.env.SUPABASE_URL}/storage/v1/object/public/telephone_messages/${file.name}`
+            .map(file => ({
+                title: file.name.replace(".mp3", ""),
+                src: `${process.env.SUPABASE_URL}/storage/v1/object/public/telephone_messages/${encodeURIComponent(file.name)}`
             }));
 
         return {
