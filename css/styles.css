@@ -11154,3 +11154,10 @@ section.resume-section .resume-section-content-center {
     }
 }
   
+@media (max-width: 991px) {
+    #carouselExampleIndicators .carousel-indicators {
+        bottom: auto;
+        top: auto;
+        margin-bottom: 1rem;
+    }
+}
