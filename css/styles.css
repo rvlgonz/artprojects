@@ -11158,6 +11158,6 @@ section.resume-section .resume-section-content-center {
     #carouselExampleIndicators .carousel-indicators {
         bottom: auto;
         top: auto;
-        margin-bottom: 1rem;
+        margin-bottom: 0rem;
     }
 }
