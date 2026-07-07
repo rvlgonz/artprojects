@@ -267,6 +267,16 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+
+    <!-- Popup Container Elements -->
+    <div id="welcomePopup" class="popup-overlay">
+        <div class="popup-box">
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+            <button id="closePopup" class="close-btn">&times;</button>
+            <h3>This doesn't look good on mobile yet. Sorry!! Please look on desktop.</h3>
+        </div></div>
+    </div>
+
 </section>
             <hr class="m-0" />
                 <section class="resume-section" id="otherprojects">
@@ -305,6 +315,29 @@
 </section>
 
 </div></div>
+              <script>
+          // Execute code as soon as the DOM tree is built
+          document.addEventListener("DOMContentLoaded", () => {
+              const popup = document.getElementById("welcomePopup");
+              const closeBtn = document.getElementById("closePopup");
+
+              // 1. Show the popup overlay
+              popup.style.display = "flex";
+
+              // 2. Hide the popup when clicking the (X) button
+              closeBtn.addEventListener("click", () => {
+                  popup.style.display = "none";
+              });
+
+              // 3. Optional: Hide the popup when clicking outside the box
+              popup.addEventListener("click", (event) => {
+                  if (event.target === popup) {
+                      popup.style.display = "none";
+                  }
+              });
+          });
+      </script>
+
                 <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
