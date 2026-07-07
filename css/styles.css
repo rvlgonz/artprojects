@@ -11054,7 +11054,7 @@ section.resume-section .resume-section-content-center {
 #aboutVal img {
     max-height: 100vh;
     max-width: 100%;
-    width: 100%;
+    /*width: 100%;*/
     height: auto;
     object-fit: contain;
 }
