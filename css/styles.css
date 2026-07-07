@@ -11153,7 +11153,7 @@ section.resume-section .resume-section-content-center {
 
 @media (min-width: 992px) {
     .carousel-control-prev {
-        left: 3.25rem;
+        left: 1rem;
     }
     .carousel-control-next {
         right: 1rem;
@@ -11162,6 +11162,7 @@ section.resume-section .resume-section-content-center {
         display: flex;
         align-items: start;
         justify-content: start;
+        margin-left: 1rem;
     }
 }
   
