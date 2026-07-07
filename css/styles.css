@@ -11129,11 +11129,16 @@ section.resume-section .resume-section-content-center {
         transform-origin: left top;
     }
     #submitColorBtn {
-        margin-left: -3.5rem;
+        margin-left: -4rem;
     }
   }
 
   @media (max-width: 991px) {
+    .carousel, .carousel-inner, .carousel-item {
+        height: auto;
+    }
+}
+  @media (max-width: 768px) {
     .carousel, .carousel-inner, .carousel-item {
         height: auto;
     }
