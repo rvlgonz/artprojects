@@ -11142,22 +11142,28 @@ section.resume-section .resume-section-content-center {
     .carousel, .carousel-inner, .carousel-item {
         height: auto;
     }
+    .carousel-caption {
+        display: none;
+    }
+    .carousel-indicators {
+        display: none;
+    }
 }
 
 
 @media (min-width: 992px) {
     .carousel-control-prev {
-        left: 3rem;
+        left: 3.25rem;
     }
     .carousel-control-next {
         right: 1rem;
     }
-}
-  
-@media (max-width: 991px) {
-    #carouselExampleIndicators .carousel-indicators {
-        bottom: auto;
-        top: auto;
-        margin-bottom: 0rem;
+    .carousel-inner {
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        padding-left: 2rem;
     }
 }
+  
+
