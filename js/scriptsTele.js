@@ -63,8 +63,8 @@ try {
         return;
     }
 
-    let playOrder = tracks.map((_, i) => i);
-    let currentIndex = 0;
+let playOrder = tracks.map((_, i) => i);
+let currentIndex = Math.floor(Math.random() * tracks.length);
 
     // rest of your existing code stays exactly the same from here
     const player = document.getElementById("messagePlayer");

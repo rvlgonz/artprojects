@@ -142,8 +142,8 @@ if (uploadAudioBtn) {
         return;
     }
 
-    let playOrder = tracks.map((_, i) => i);
-    let currentIndex = 0;
+let playOrder = tracks.map((_, i) => i);
+let currentIndex = Math.floor(Math.random() * tracks.length);
 
     // PLAYER ELEMENTS
     const player = document.getElementById("messagePlayer");
@@ -249,58 +249,62 @@ if (uploadAudioBtn) {
     });
 
 async function showContactSheet(submittedColor, trackTitle) {
-    // fetch real submissions for this track from supabase
-    let colors = [submittedColor];
-
-    try {
-        const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
-        const data = await response.json();
-        if (data.colors) {
-            colors = data.colors;
-        }
-    } catch (err) {
-        console.error("Failed to fetch colors:", err);
-        // falls back to just showing the submitted color
-    }
-
+    // show immediately with just the submitted color
     pickerView.style.display = "none";
     contactSheetView.style.display = "block";
     contactSheetGrid.innerHTML = "";
     contactSheetGrid.style.display = "grid";
     contactSheetGrid.style.gap = "2px";
 
+    // render the submitted color right away as a single tile
     requestAnimationFrame(() => {
-        const n = colors.length;
-        const cols = Math.ceil(Math.sqrt(n));
-        const rows = Math.ceil(n / cols);
-        contactSheetGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-        contactSheetGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-
-        colors.forEach(color => {
-            const tile = document.createElement("div");
-            tile.style.backgroundColor = color;
-            contactSheetGrid.appendChild(tile);
-        });
+        contactSheetGrid.style.gridTemplateColumns = `repeat(1, 1fr)`;
+        contactSheetGrid.style.gridTemplateRows = `repeat(1, 1fr)`;
+        const tile = document.createElement("div");
+        tile.style.backgroundColor = submittedColor;
+        contactSheetGrid.appendChild(tile);
     });
+
+    // then fetch the rest and update the grid
+    try {
+        const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
+        const data = await response.json();
+        if (data.colors && data.colors.length > 0) {
+            const colors = data.colors;
+            contactSheetGrid.innerHTML = "";
+
+            requestAnimationFrame(() => {
+                const n = colors.length;
+                const cols = Math.ceil(Math.sqrt(n));
+                const rows = Math.ceil(n / cols);
+                contactSheetGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+                contactSheetGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+                colors.forEach(color => {
+                    const tile = document.createElement("div");
+                    tile.style.backgroundColor = color;
+                    contactSheetGrid.appendChild(tile);
+                });
+            });
+        }
+    } catch (err) {
+        console.error("Failed to fetch colors:", err);
+    }
 }
 
     // SINGLE submit handler
-    submitColorBtn.addEventListener("click", async function() {
+submitColorBtn.addEventListener("click", async function() {
     const currentTrack = tracks[playOrder[currentIndex]];
     const chosenColor = colorPicker.color.hexString;
 
-    console.log("track:", currentTrack.title, "color:", chosenColor);
+    // submit to database but don't wait for it
+    fetch("/.netlify/functions/submit-color", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
+    }).catch(err => console.error("Color submission failed:", err));
 
-    try {
-        await fetch("/.netlify/functions/submit-color", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
-        });
-    } catch (err) {
-        console.error("Color submission failed:", err);
-    }
-
+    // show contact sheet immediately
     showContactSheet(chosenColor, currentTrack.title);
 });
 
