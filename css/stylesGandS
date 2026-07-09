@@ -1,0 +1,49 @@
+/* Navbar */
+body #sideNav,
+body nav#sideNav {
+    background-color: #617770 !important;
+}
+
+/* Font family — high specificity */
+body, body p, body h1, body h2, body h3, body h4, body h5, body h6, 
+body .btn, body .nav-link, body .subheading, body span, body li, body a {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-weight: 300 !important;
+}
+
+/* Colors */
+body {
+    color: #617770 !important;
+    background-color: #f5f0eb !important;
+}
+
+body h1, body h2, body h3, body h4, body h5, body h6 {
+    color: #617770 !important;
+}
+
+body .text-primary {
+    color: #617770 !important;
+}
+
+body .btn-primary {
+    background-color: #617770 !important;
+    border-color: #617770 !important;
+    color: #f5f0eb !important;
+}
+
+body .bg-primary {
+    background-color: #617770 !important;
+}
+
+body .nav-link {
+    color: #f5f0eb !important;
+}
+
+/* Override Bootstrap CSS variables at root */
+:root {
+    --bs-primary: #617770 !important;
+    --bs-primary-rgb: 97, 119, 112 !important;
+    --bs-body-font-family: 'Cormorant Garamond', serif !important;
+    --bs-body-color: #617770 !important;
+    --bs-body-bg: #f5f0eb !important;
+}
