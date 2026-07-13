@@ -11098,7 +11098,7 @@ section.resume-section .resume-section-content-center {
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 10rem;
+    left: 5rem;
     right: 10px; /* accounts for scrollbar width */
     display: grid;
     gap: 2px;
