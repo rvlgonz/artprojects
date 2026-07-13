@@ -1,5 +1,5 @@
 /*!
-* Start Bootstrap - Resume v7.0.6 (https://startbootstrap.com/theme/resume)
+* Start Bootstrap - Based on Resume v7.0.6 (https://startbootstrap.com/theme/resume)
 * Copyright 2013-2023 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-resume/blob/master/LICENSE)
 */
@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 document.addEventListener("DOMContentLoaded", async function() {
 
-    // fetch tracks from supabase instead of hardcoding
+    // fetch from supabase
 let tracks = [];
 try {
     const response = await fetch("/.netlify/functions/get-tracks");
@@ -157,7 +157,7 @@ function renderPlaylist() {
     ]
 });
 
-//ADD FOR COLOR PICKER
+//COLOR PICKER
 //const hexDisplay = document.getElementById("hex-display");
 //const colorSwatch = document.getElementById("color-swatch");
 //const submitColorBtn = document.getElementById("submitColorBtn");
@@ -184,7 +184,7 @@ function renderPlaylist() {
 
     //submitConfirm.style.display = "block";
 //});
-//END ADD FOR COLOR PICKER
+//END COLOR PICKER
 
 });
 

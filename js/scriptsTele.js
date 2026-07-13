@@ -1,5 +1,5 @@
 /*!
-* Start Bootstrap - Resume v7.0.6 (https://startbootstrap.com/theme/resume)
+* Start Bootstrap - Based on Resume v7.0.6 (https://startbootstrap.com/theme/resume)
 * Copyright 2013-2023 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-resume/blob/master/LICENSE)
 */
@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 document.addEventListener("DOMContentLoaded", async function() {
 
-    // fetch tracks from supabase instead of hardcoding
+    // fetch from supabase
 let tracks = [];
 try {
     const response = await fetch("/.netlify/functions/get-telephone-tracks");
@@ -43,7 +43,7 @@ try {
     tracks = data.tracks;
 } catch (err) {
     console.error("Failed to load tracks, using fallback:", err);
-    // fallback for local testing
+    // fallback for local
     tracks = [
         { title: "Chicago, 2026 (1)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone007_mp3.mp3" },
         { title: "Chicago, 2026 (2)", src: "https://zzuyrrnscxkzejkfqkxc.supabase.co/storage/v1/object/public/calls/Telephone010_mp3.mp3" },
@@ -66,7 +66,6 @@ try {
 let playOrder = tracks.map((_, i) => i);
 let currentIndex = Math.floor(Math.random() * tracks.length);
 
-    // rest of your existing code stays exactly the same from here
     const player = document.getElementById("messagePlayer");
     const source = document.getElementById("messageSource");
     const nowPlaying = document.getElementById("nowPlaying");
@@ -157,7 +156,7 @@ function renderPlaylist() {
     ]
 });
 
-//ADD FOR COLOR PICKER
+//COLOR PICKER
 //const hexDisplay = document.getElementById("hex-display");
 //const colorSwatch = document.getElementById("color-swatch");
 //const submitColorBtn = document.getElementById("submitColorBtn");
@@ -184,7 +183,7 @@ function renderPlaylist() {
 
     //submitConfirm.style.display = "block";
 //});
-//END ADD FOR COLOR PICKER
+//END COLOR PICKER
 
 });
 

@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructions</title>
     <style>
-        /* The dark background overlay */
+        /* Dark background overlay */
         .popup-overlay {
             display: none; /* Hidden by default */
             position: fixed;
@@ -34,7 +34,7 @@
             align-items: center;
         }
 
-        /* The white popup box */
+        /* White popup box */
         .popup-box {
             background-color: #fff;
             padding: 30px;
@@ -47,7 +47,7 @@
             font-family: sans-serif;
         }
 
-        /* The close button (X) */
+        /* X buttton */
         .close-btn {
             position: absolute;
             top: 10px;
@@ -202,9 +202,9 @@
 </section>
 
 <hr class="m-0" />
-<!-- rest of your sections -->
+<!-- rest of sections -->
 
-    <!-- Popup Container Elements -->
+    <!-- Popup -->
     <div id="welcomePopup" class="popup-overlay">
         <div class="popup-box">
             <button id="closePopup" class="close-btn">&times;</button>
@@ -258,15 +258,15 @@
             const popup = document.getElementById("welcomePopup");
             const closeBtn = document.getElementById("closePopup");
 
-            // 1. Show the popup overlay
+            // Show the popup overlay
             popup.style.display = "flex";
 
-            // 2. Hide the popup when clicking the (X) button
+            // Hide the popup when clicking X
             closeBtn.addEventListener("click", () => {
                 popup.style.display = "none";
             });
 
-            // 3. Optional: Hide the popup when clicking outside the box
+            // Hide the popup when clicking outside the box
             popup.addEventListener("click", (event) => {
                 if (event.target === popup) {
                     popup.style.display = "none";

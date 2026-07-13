@@ -4,7 +4,7 @@ body nav#sideNav {
     background-color: #617770 !important;
 }
 
-/* Font family — high specificity */
+/* Font family  */
 body, body p, body h1, body h2, body h3, body h4, body h5, body h6, 
 body .btn, body .nav-link, body .subheading, body span, body li, body a {
     font-family: 'Cormorant Garamond', serif !important;
@@ -39,7 +39,7 @@ body .nav-link {
     color: #f5f0eb !important;
 }
 
-/* Override Bootstrap CSS variables at root */
+/* Override Bootstrap */
 :root {
     --bs-primary: #617770 !important;
     --bs-primary-rgb: 97, 119, 112 !important;

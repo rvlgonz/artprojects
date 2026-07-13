@@ -314,20 +314,20 @@
 
 </div></div>
               <script>
-          // Execute code as soon as the DOM tree is built
+          // Execute as soon as the DOM tree is built
           document.addEventListener("DOMContentLoaded", () => {
               const popup = document.getElementById("welcomePopup");
               const closeBtn = document.getElementById("closePopup");
 
-              // 1. Show the popup overlay
+              // Show the popup overlay
               popup.style.display = "flex";
 
-              // 2. Hide the popup when clicking the (X) button
+              // Hide the popup when clicking X
               closeBtn.addEventListener("click", () => {
                   popup.style.display = "none";
               });
 
-              // 3. Optional: Hide the popup when clicking outside the box
+              // Hide the popup when clicking outside the box
               popup.addEventListener("click", (event) => {
                   if (event.target === popup) {
                       popup.style.display = "none";
