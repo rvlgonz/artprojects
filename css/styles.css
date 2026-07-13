@@ -11071,16 +11071,16 @@ section.resume-section .resume-section-content-center {
  color: #6c757d
 }
 
-.next-track-container{
+.next-track-container {
     position: fixed;
     bottom: 5rem;
-    left: calc((100vw - 10rem) / 2 + 10rem);
-  transform: translateX(-50%);
+    left: 10rem; /* sidebar width */
     right: 0;
     display: flex;
     justify-content: center;
     pointer-events: none;
 }
+
 
 .next-track-container button{
     pointer-events: auto;
@@ -11120,6 +11120,12 @@ section.resume-section .resume-section-content-center {
     .carousel {
         margin-left: 0 !important;
         width: 100% !important;
+    }
+}
+
+@media (max-width: 991px) {
+#nextTrackBtn {
+        left: 50%;
     }
 }
 

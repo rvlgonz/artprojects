@@ -137,13 +137,23 @@ if (uploadAudioBtn) {
         ];
     }
 
-    if (tracks.length === 0) {
+
+        if (tracks.length === 0) {
         console.error("No tracks loaded");
         return;
     }
 
-let playOrder = tracks.map((_, i) => i);
-let currentIndex = Math.floor(Math.random() * tracks.length);
+    let playOrder = tracks.map((_, i) => i);
+    let currentIndex = Math.floor(Math.random() * tracks.length);
+
+    const savedIndex = sessionStorage.getItem("startIndex");
+    const savedOrder = sessionStorage.getItem("playOrder");
+    if (savedIndex && savedOrder) {
+        currentIndex = parseInt(savedIndex);
+        playOrder = JSON.parse(savedOrder);
+        sessionStorage.removeItem("startIndex");
+        sessionStorage.removeItem("playOrder");
+    }
 
     // PLAYER ELEMENTS
     const player = document.getElementById("messagePlayer");
@@ -211,15 +221,10 @@ let currentIndex = Math.floor(Math.random() * tracks.length);
         player.play();
     });
 
-    // player.addEventListener("ended", () => {
-    //     nextBtn.click();
-    // });
-
     loadCurrent();
 
     // COLOR PICKER
     const colorPicker = new iro.ColorPicker("#color-picker-container", {
-        //width: 270,
         color: "#ffffff",
         borderWidth: 2,
         borderColor: "#989898",
@@ -234,88 +239,30 @@ let currentIndex = Math.floor(Math.random() * tracks.length);
 
     const hexDisplay = document.getElementById("hex-display");
     const submitColorBtn = document.getElementById("submitColorBtn");
-    const submitConfirm = document.getElementById("submitConfirm");
     const pickerView = document.getElementById("aboutColor");
-    const contactSheetView = document.getElementById("contactSheetView");
-    const contactSheetGrid = document.getElementById("contactSheetGrid");
-    const nextTrackBtn = document.getElementById("nextTrackBtn");
-
 
     colorPicker.on("color:change", function(color) {
         if (hexDisplay) hexDisplay.textContent = color.hexString;
         pickerView.style.backgroundColor = color.hexString;
         pickerView.style.transition = "background-color 0.2s ease";
-        if (submitConfirm) submitConfirm.style.display = "none";
     });
 
-async function showContactSheet(submittedColor, trackTitle) {
-    // show immediately with just the submitted color
-    pickerView.style.display = "none";
-    contactSheetView.style.display = "block";
-    contactSheetGrid.innerHTML = "";
-    contactSheetGrid.style.display = "grid";
-    contactSheetGrid.style.gap = "2px";
+    submitColorBtn.addEventListener("click", async function() {
+        const currentTrack = tracks[playOrder[currentIndex]];
+        const chosenColor = colorPicker.color.hexString;
 
-    // render the submitted color right away as a single tile
-    requestAnimationFrame(() => {
-        contactSheetGrid.style.gridTemplateColumns = `repeat(1, 1fr)`;
-        contactSheetGrid.style.gridTemplateRows = `repeat(1, 1fr)`;
-        const tile = document.createElement("div");
-        tile.style.backgroundColor = submittedColor;
-        contactSheetGrid.appendChild(tile);
-    });
+        sessionStorage.setItem("submittedColor", chosenColor);
+        sessionStorage.setItem("trackTitle", currentTrack.title);
+        sessionStorage.setItem("nextIndex", (currentIndex + 1) % playOrder.length);
+        sessionStorage.setItem("playOrder", JSON.stringify(playOrder));
 
-    // then fetch the rest and update the grid
-    try {
-        const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
-        const data = await response.json();
-        if (data.colors && data.colors.length > 0) {
-            const colors = data.colors;
-            contactSheetGrid.innerHTML = "";
+        fetch("/.netlify/functions/submit-color", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
+        }).catch(err => console.error("Color submission failed:", err));
 
-            requestAnimationFrame(() => {
-                const n = colors.length;
-                const cols = Math.ceil(Math.sqrt(n));
-                const rows = Math.ceil(n / cols);
-                contactSheetGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-                contactSheetGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-
-                colors.forEach(color => {
-                    const tile = document.createElement("div");
-                    tile.style.backgroundColor = color;
-                    contactSheetGrid.appendChild(tile);
-                });
-            });
-        }
-    } catch (err) {
-        console.error("Failed to fetch colors:", err);
-    }
-}
-
-    // SINGLE submit handler
-submitColorBtn.addEventListener("click", async function() {
-    const currentTrack = tracks[playOrder[currentIndex]];
-    const chosenColor = colorPicker.color.hexString;
-
-    // submit to database but don't wait for it
-    fetch("/.netlify/functions/submit-color", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
-    }).catch(err => console.error("Color submission failed:", err));
-
-    // show contact sheet immediately
-    showContactSheet(chosenColor, currentTrack.title);
-});
-
-    nextTrackBtn.addEventListener("click", function() {
-        currentIndex = (currentIndex + 1) % playOrder.length;
-        loadCurrent();
-        pickerView.style.backgroundColor = "";
-        pickerView.style.transition = "";
-        contactSheetView.style.display = "none";
-        pickerView.style.display = "";
+        window.location.href = "contactsheet.html";
     });
 
 }); // end DOMContentLoaded
-

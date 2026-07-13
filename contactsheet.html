@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>your colors</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            background: #f8f9fa;
+        }
+
+        #contactSheetGrid {
+            display: grid;
+            width: 100vw;
+            height: 100vh;
+            gap: 2px;
+        }
+
+        #nextTrackBtn {
+            position: fixed;
+            bottom: 2rem;
+            left: calc(50% + 5rem);
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <span class="d-block d-lg-none"><img class="img-fluid img-nav rounded-circle mx-auto mb-0" src="assets/img/logo.jpg" alt="..." /></span>
+                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/logo.jpg" alt="..." /></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="VoiceColor.html">color selector</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.html">main site</a></li>
+                    <!--li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li-->
+                    <!--li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li-->
+                    <!--li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li-->
+                </ul>
+            </div>
+        </nav>
+
+    <div id="contactSheetGrid"></div>
+    <button id="nextTrackBtn" class="btn btn-primary px-4 py-2">next</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        const trackTitle = sessionStorage.getItem("trackTitle");
+        const submittedColor = sessionStorage.getItem("submittedColor");
+        const nextIndex = sessionStorage.getItem("nextIndex");
+        const playOrder = JSON.parse(sessionStorage.getItem("playOrder") || "[]");
+        const grid = document.getElementById("contactSheetGrid");
+        const nextBtn = document.getElementById("nextTrackBtn");
+
+        // fetch colors and render grid
+        let colors = [submittedColor];
+        try {
+            const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
+            const data = await response.json();
+            if (data.colors && data.colors.length > 0) {
+                colors = data.colors;
+            }
+        } catch (err) {
+            console.error("Failed to fetch colors:", err);
+        }
+
+        // build grid
+        const n = colors.length;
+        const cols = Math.ceil(Math.sqrt(n));
+        const rows = Math.ceil(n / cols);
+        grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+        colors.forEach(color => {
+            const tile = document.createElement("div");
+            tile.style.backgroundColor = color;
+            grid.appendChild(tile);
+        });
+
+        // next button — save new index and go back
+        nextBtn.addEventListener("click", function() {
+            sessionStorage.setItem("startIndex", nextIndex);
+            sessionStorage.setItem("playOrder", JSON.stringify(playOrder));
+            window.location.href = "VoiceColor.html";
+        });
+    });
+    </script>
+</body>
+</html>
