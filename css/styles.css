@@ -11196,7 +11196,7 @@ section.resume-section .resume-section-content-center {
 @media (max-width: 991px) {
   #aboutContact{
     padding-top: .5rem !important;
-    padding-left: 1rem;
+    padding-left: 2rem;
     display: flex;
     align-items: center;
   }}
