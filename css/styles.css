@@ -177,6 +177,17 @@ p {
 
 }
 
+.form-group label {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+  color:#c93c3c;
+}
+
+.form-control{
+  font-family: "Atkinson Hyperlegible Mono", sans-serif;
+}
+
 abbr[title] {
   -webkit-text-decoration: underline dotted;
           text-decoration: underline dotted;
@@ -11173,5 +11184,11 @@ section.resume-section .resume-section-content-center {
         align-items: start;
         justify-content: start;
         margin-left: 1rem;
+    }
+}
+
+@media (max-width: 991px) {
+    #aboutColor .mt-5 {
+        margin-top: 0.5rem !important;
     }
 }
