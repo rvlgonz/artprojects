@@ -44,5 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Submit failed:", err);
             }
         });
+
+        emailInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") e.preventDefault();
+});
+
+commentInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) e.preventDefault();
+});
     }
 });
