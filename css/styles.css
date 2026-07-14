@@ -11193,12 +11193,13 @@ section.resume-section .resume-section-content-center {
     }
 }
 
-@media (max-width: 991px) {
+@media (max-device-width: 991px) {
   #aboutContact{
     padding-top: .5rem !important;
-    padding-left: 0rem !important;
-    padding-right: 2rem !important;
+    display: flex;
+    align-items: center;
   }}
+
 
   #aboutContact {
     min-height: 100vh;
