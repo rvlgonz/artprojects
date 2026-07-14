@@ -11193,9 +11193,10 @@ section.resume-section .resume-section-content-center {
     }
 }
 
-@media (max-device-width: 991px) {
+@media (max-width: 991px) {
   #aboutContact{
     padding-top: .5rem !important;
+    padding-left: 1rem;
     display: flex;
     align-items: center;
   }}
