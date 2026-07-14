@@ -11192,3 +11192,15 @@ section.resume-section .resume-section-content-center {
         margin-top: 0.5rem !important;
     }
 }
+
+@media (max-width: 991px) {
+  #aboutContact{
+    padding-top: .5rem !important;
+
+  }}
+
+  #aboutContact {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
