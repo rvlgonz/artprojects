@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadStatus = document.getElementById("uploadStatus");
 
     if (uploadCommentBtn) {
-        uploadCommentBtn.addEventListener("click", async function() {
+            uploadCommentBtn.addEventListener("click", async function(e) {
+            e.preventDefault();
+
             const commentValue = commentInput.value;
             const emailValue = emailInput.value;
 
