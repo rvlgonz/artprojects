@@ -67,19 +67,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 const audioFileInput = document.getElementById("audioFileInput");
 const uploadAudioBtn = document.getElementById("uploadAudioBtn");
 const uploadStatus = document.getElementById("uploadStatus");
+const recordBtn = document.getElementById("recordBtn");
+const stopBtn = document.getElementById("stopBtn");
+const submitRecordingBtn = document.getElementById("submitRecordingBtn");
+const recordingPreview = document.getElementById("recordingPreview");
 
+let mediaRecorder;
+let audioChunks = [];
+let recordedBlob = null;
+
+// helper to show status
+function showStatus(msg) {
+    if (uploadStatus) {
+        uploadStatus.textContent = msg;
+        uploadStatus.style.display = "block";
+    }
+}
+
+// FILE UPLOAD HANDLER
 if (uploadAudioBtn) {
     uploadAudioBtn.addEventListener("click", async function() {
-        const file = audioFileInput.files[0];
-        
-        if (!file) {
-            uploadStatus.textContent = "please select a file first.";
-            uploadStatus.style.display = "block";
+        if (!audioFileInput || !audioFileInput.files[0]) {
+            showStatus("Please select a file first.");
             return;
         }
 
-        uploadStatus.textContent = "uploading...";
-        uploadStatus.style.display = "block";
+        const file = audioFileInput.files[0];
+        showStatus("uploading...");
 
         try {
             const base64 = await new Promise((resolve, reject) => {
@@ -102,18 +116,116 @@ if (uploadAudioBtn) {
             const data = await response.json();
 
             if (data.success) {
-                uploadStatus.textContent = "received. thank you.";
+                showStatus("received. thank you.");
                 audioFileInput.value = "";
             } else {
-                uploadStatus.textContent = "something went wrong. try again.";
+                showStatus("something went wrong. try again.");
                 console.error("Upload error:", data.error);
             }
         } catch (err) {
-            uploadStatus.textContent = "something went wrong. try again.";
+            showStatus("something went wrong. try again.");
             console.error("Upload failed:", err);
         }
-    }); // closes addEventListener
-} // closes if (uploadAudioBtn)
+    });
+}
+
+// RECORDING HANDLER
+if (recordBtn) {
+    recordBtn.addEventListener("click", async function() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            const mimeType = isSafari ? "audio/mp4" : "audio/webm";
+
+            mediaRecorder = new MediaRecorder(stream, { mimeType });
+            audioChunks = [];
+            recordedBlob = null;
+            recordingPreview.style.display = "none";
+            submitRecordingBtn.style.display = "none";
+
+            mediaRecorder.addEventListener("dataavailable", e => {
+                audioChunks.push(e.data);
+            });
+
+            mediaRecorder.addEventListener("stop", () => {
+                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                const mimeType = isSafari ? "audio/mp4" : "audio/webm";
+                recordedBlob = new Blob(audioChunks, { type: mimeType });
+
+                const url = URL.createObjectURL(recordedBlob);
+                recordingPreview.src = url;
+                recordingPreview.style.display = "block";
+                submitRecordingBtn.style.display = "inline-block";
+                stream.getTracks().forEach(track => track.stop());
+                uploadStatus.innerHTML = "Recording ready.<p>Press 'submit recording' to upload or 'record directly' to re-record.";
+            });
+
+            mediaRecorder.start();
+            recordBtn.style.display = "none";
+            stopBtn.style.display = "block";
+            showStatus("recording...");
+
+        } catch (err) {
+            console.error("Microphone error:", err);
+            showStatus("microphone access denied.");
+        }
+    });
+
+    stopBtn.addEventListener("click", function() {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+        }
+        stopBtn.style.display = "none";
+        recordBtn.style.display = "block";
+    });
+}
+
+// SUBMIT RECORDING HANDLER
+if (submitRecordingBtn) {
+    submitRecordingBtn.addEventListener("click", async function() {
+        if (!recordedBlob) {
+            showStatus("no recording found.");
+            return;
+        }
+
+        showStatus("uploading...");
+
+        try {
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            const ext = isSafari ? ".m4a" : ".webm";
+            const fileName = `recording-${Date.now()}${ext}`;
+            const contentType = recordedBlob.type;
+
+            const base64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(",")[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(recordedBlob);
+            });
+
+            const response = await fetch("/.netlify/functions/submit-audio", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fileName, fileData: base64, contentType })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showStatus("received. thank you.");
+                recordedBlob = null;
+                recordingPreview.style.display = "none";
+                submitRecordingBtn.style.display = "none";
+            } else {
+                showStatus("something went wrong. try again.");
+                console.error("Recording upload error:", data.error);
+            }
+        } catch (err) {
+            showStatus("something went wrong. try again.");
+            console.error("Recording upload failed:", err);
+        }
+    });
+}
 
     // TRACKS
     let tracks = [];

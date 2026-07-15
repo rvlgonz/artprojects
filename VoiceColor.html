@@ -104,7 +104,7 @@
                     <!--hr class="m-0" style="padding-bottom: .25rem;" /-->
                     
  <!--section class="resume-section" id="audio"-->
-    <div class="resume-section-content" style="padding-top: 6rem;">
+    <div class="resume-section-content-hex">
 
         <div class="row align-items-center justify-content-center">
 
@@ -172,16 +172,34 @@
                         <span class="text-primary" style="font-size: 3rem;">Add yours</span>
                     </h2>
                         <h5>Say anything you want for ~15 seconds or less. Keep it anonymous.</h5>
-                        <h5>Send it as an MP3.</h5>
                         <h5>Responses will be reviewed before inclusion, so don't be a jerk about it.</h5>
-                        <h5>You can also text me if you have my number.</h5>
+                        <h5>You can also text me a voice note, etc. if you have my number.</h5>
                          <!--<a href="mailto:name@email.com">name@email.com</a>-->
 <div style="padding-top: 1rem;">
-    <input type="file" class="btn btn-primary" id="audioFileInput" accept=".mp3,audio/*">
-    <br><br>
-    <button id="uploadAudioBtn" class="btn btn-primary">Submit File</button>
+   
+    <div id="audioUploadSection">
+    <!-- File upload flow -->
+    <div class="mb-3">
+        <input type="file" id="audioFileInput" accept="audio/*,.mp3,.wav,.aac,.m4a,.ogg" class="btn btn-primary">
+
+        <button type="button" id="uploadAudioBtn" class="btn btn-primary">upload</button>
+    </div>
+
+    <!-- Recording flow -->
+    <div class="mb-3">
+        <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                    <audio id="recordingPreview" controls style="display:none; margin-top: .5rem; margin-bottom: 1rem;"></audio>
+            <button type="button" id="stopBtn" class="btn btn-danger" style="display:none;">stop</button>
+        </div>
+<div class="d-flex gap-2 justify-content-center">
+    <button type="button" id="submitRecordingBtn" class="btn btn-primary" style="display:none;">submit recording</button>
+    <button type="button" id="recordBtn" class="btn btn-primary">record directly</button>
+</div>
+
     <p id="uploadStatus" style="display:none; padding-top: 0.5rem;"></p>
 </div>
+</div>
+
 </section>
 
 <hr class="m-0" />
@@ -230,7 +248,7 @@
                     <h4 class="mb-5">A little about what's going on here</h4>
                     <div class="row d-flex flex-column flex-md-row justify-content-between">
                     <h5> Once, I was sitting around my living room thinking to myself, "my voice doesn't convey emotion correctly because it's too blood red." Now, I constantly ask people what color their voice is.</h5>
-                   <h5>If you want to if you want to chat about it, drop a note in the <a href="contactform.html">contact form.</a></h5>
+                   <h5>If you want to if you want to chat about it, drop a note in the <a href="contactform.html">contact form.</a> or, you know, text me if you have my number.</h5>
                     <div class="-row flex flex-column flex-md-row justify-content-between mb-5" style="font-family: 'Atkinson Hyperlegible Mono', monospace; color: #6c757d">Brief bio: Neuroscientist based in NYC, orginially from Chicagoland. Owns a router (woodworking version.)</div>
                 </div>
             </section>
