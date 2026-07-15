@@ -84,6 +84,7 @@ function showStatus(msg) {
     }
 }
 
+
 // FILE UPLOAD HANDLER
 if (uploadAudioBtn) {
     uploadAudioBtn.addEventListener("click", async function() {
@@ -129,13 +130,27 @@ if (uploadAudioBtn) {
     });
 }
 
+function getSupportedMimeType() {
+    const types = ['audio/webm', 'audio/mp4', 'audio/ogg', 'audio/wav'];
+    for (const type of types) {
+        if (MediaRecorder.isTypeSupported(type)) {
+            return type;
+        }
+    }
+    return '';
+}
+
 // RECORDING HANDLER
 if (recordBtn) {
     recordBtn.addEventListener("click", async function() {
+        if (typeof MediaRecorder === 'undefined') {
+            showStatus("recording not supported in this browser. please upload a file instead.");
+            return;
+        }
+
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            const mimeType = isSafari ? "audio/mp4" : "audio/webm";
+            const mimeType = getSupportedMimeType();
 
             mediaRecorder = new MediaRecorder(stream, { mimeType });
             audioChunks = [];
@@ -148,8 +163,7 @@ if (recordBtn) {
             });
 
             mediaRecorder.addEventListener("stop", () => {
-                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-                const mimeType = isSafari ? "audio/mp4" : "audio/webm";
+                // reuse mimeType from outer scope, don't redeclare
                 recordedBlob = new Blob(audioChunks, { type: mimeType });
 
                 const url = URL.createObjectURL(recordedBlob);
@@ -157,7 +171,8 @@ if (recordBtn) {
                 recordingPreview.style.display = "block";
                 submitRecordingBtn.style.display = "inline-block";
                 stream.getTracks().forEach(track => track.stop());
-                uploadStatus.innerHTML = "Recording ready.<p>Press 'submit recording' to upload or 'record directly' to re-record.";
+                uploadStatus.innerHTML = "Recording ready.<br>Press 'submit recording' to upload or 'record directly' to re-record.";
+                uploadStatus.style.display = "block";
             });
 
             mediaRecorder.start();
@@ -191,10 +206,10 @@ if (submitRecordingBtn) {
         showStatus("uploading...");
 
         try {
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            const ext = isSafari ? ".m4a" : ".webm";
+            const mimeType = getSupportedMimeType();
+            const ext = mimeType.includes("mp4") ? ".m4a" : mimeType.includes("ogg") ? ".ogg" : ".webm";
             const fileName = `recording-${Date.now()}${ext}`;
-            const contentType = recordedBlob.type;
+            const contentType = mimeType;
 
             const base64 = await new Promise((resolve, reject) => {
                 const reader = new FileReader();
