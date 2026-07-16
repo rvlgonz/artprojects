@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>your colors</title>
+        <title>RG - color nodes</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon (1).ico" />
     <link href="css/styles.css" rel="stylesheet" />
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,12 +17,12 @@
         }
 
         #colorCanvas {
-    position: fixed;
-    top: 3rem;     /* push down from top */
-    bottom: 4rem;  /* leave room at bottom for next button */
-    left: 0;
-    width: 100vw;
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
 
         #nextTrackBtn {
             position: fixed;
@@ -95,9 +96,9 @@ setTimeout(async () => {
     const sidebarW = window.innerWidth > 991 ? 160 : 0;
     const topbarH = window.innerWidth <= 991 ? 56 : 0;
     const W = window.innerWidth;
-    const H = window.innerHeight - 56; // subtract whatever top offset you used
+    const H = window.innerHeight;
     const centerX = sidebarW + (W - sidebarW) / 2;
-    const centerY = topbarH + (H - topbarH) / 2;
+    const centerY = (H / 2) - 40; //
 
     svg.attr("width", W).attr("height", H);
 
