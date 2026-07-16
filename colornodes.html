@@ -16,12 +16,12 @@
         }
 
         #colorCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-        }
+    position: fixed;
+    top: 3rem;     /* push down from top */
+    bottom: 4rem;  /* leave room at bottom for next button */
+    left: 0;
+    width: 100vw;
+}
 
         #nextTrackBtn {
             position: fixed;
@@ -95,7 +95,7 @@ setTimeout(async () => {
     const sidebarW = window.innerWidth > 991 ? 160 : 0;
     const topbarH = window.innerWidth <= 991 ? 56 : 0;
     const W = window.innerWidth;
-    const H = window.innerHeight;
+    const H = window.innerHeight - 56; // subtract whatever top offset you used
     const centerX = sidebarW + (W - sidebarW) / 2;
     const centerY = topbarH + (H - topbarH) / 2;
 
@@ -179,7 +179,7 @@ setTimeout(async () => {
         const simulation = d3.forceSimulation(nodes)
             .alphaDecay(0.02)  // slower decay = more time to spread out
             .force("center", d3.forceCenter(centerX, centerY).strength(0.8))
-            .force("collide", d3.forceCollide(d => d.r + 40).strength(1))
+            .force("collide", d3.forceCollide(d => d.r + 20).strength(1))
             .force("charge", d3.forceManyBody().strength(-100))
             .force("x", d3.forceX(centerX).strength(0.05))
             .force("y", d3.forceY(centerY).strength(0.05))
