@@ -389,7 +389,7 @@ if (submitRecordingBtn) {
             body: JSON.stringify({ track: currentTrack.title, color: chosenColor })
         }).catch(err => console.error("Color submission failed:", err));
 
-        window.location.href = "contact2.html";
+        window.location.href = "colornodes.html";
     });
 
 }); // end DOMContentLoaded

@@ -136,7 +136,7 @@ setTimeout(async () => {
         // central average node
         nodes.push({
             color: avgColor,
-            r: outerRadius * 2.5,
+            r: outerRadius * 2,
             isAverage: true,
             x: centerX,
             y: centerY,
@@ -152,7 +152,7 @@ setTimeout(async () => {
             .attr("r", d => d.r)
             .attr("fill", d => d.color)
             .attr("stroke", d => d.isAverage ? "#6c757d" : "none")
-            .attr("stroke-width", d => d.isAverage ? 1 : 0)
+            .attr("stroke-width", d => d.isAverage ? .5 : 0)
             .attr("opacity", d => d.isAverage ? 1 : 0.85);
 
         const avgNode = nodes[nodes.length - 1];
@@ -179,7 +179,7 @@ setTimeout(async () => {
         const simulation = d3.forceSimulation(nodes)
             .alphaDecay(0.02)  // slower decay = more time to spread out
             .force("center", d3.forceCenter(centerX, centerY).strength(0.8))
-            .force("collide", d3.forceCollide(d => d.r + 20).strength(1))
+            .force("collide", d3.forceCollide(d => d.r + 75).strength(1))
             .force("charge", d3.forceManyBody().strength(-100))
             .force("x", d3.forceX(centerX).strength(0.05))
             .force("y", d3.forceY(centerY).strength(0.05))
