@@ -263,7 +263,6 @@ const needsTracks =
     document.getElementById("messagePlayer") ||
     document.getElementById("trackCarousel") ||
     document.getElementById("submitColorBtn");
-    console.log("needsTracks:", needsTracks);
 
 if (needsTracks) {
 

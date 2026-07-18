@@ -11218,3 +11218,9 @@ section.resume-section .resume-section-content-center {
         padding-top: 1rem;
     }
 }
+
+.track-title {
+    padding-bottom: 2rem;
+    font-family: "Atkinson Hyperlegible Mono", monospace;
+    color: #ee4343;
+}
