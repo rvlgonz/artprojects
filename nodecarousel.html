@@ -59,10 +59,14 @@
                 left: 0;
                 top: 3.5rem;
                 width: 100%;
-                height: calc(100vh - 3.5rem);
+                height: calc(100dvh - 3.5rem);
             }
+            
+        #trackCarousel .carousel-caption {
+        top: .5rem;
         }
 
+        }
 
     </style>
 </head>
@@ -123,22 +127,22 @@
 
 <script>
 
-const referents = [
-    "Chicago, 2026 (1)",
-    "Chicago, 2026 (2)",
-    "Chicago, 2026 (3)",
-    "Chicago, 2026 (4)",
-    "Chicago, 2026 (6)",
-    "an actor",
-    "five thirty pm",
-    "Chicago, 2026 (11)",
-    "Chicago, 2026 (12)",
-    "brains",
-    "Chicago, 2026 (14)",
-    "Cape Cod",
-    "St. Paul, 2026",
-
-];
+// const referents = [
+//     "Chicago, 2026 (1)",
+//     "Chicago, 2026 (2)",
+//     "Chicago, 2026 (3)",
+//     "Chicago, 2026 (4)",
+//     "Chicago, 2026 (6)",
+//     "an actor",
+//     "five thirty pm",
+//     "Chicago, 2026 (11)",
+//     "Chicago, 2026 (12)",
+//     "brains",
+//     "Chicago, 2026 (14)",
+//     "Cape Cod",
+//     "St. Paul, 2026",
+//     "a punk",
+// ];
 
     /*let referents = [];*/
 
@@ -146,25 +150,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const response = await fetch("/.netlify/functions/get-tracks");
-if (!response.ok) throw new Error(`HTTP ${response.status}`);
-const data = await response.json();
 
-buildCarousel(referents);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
-const firstSvg = document.querySelector(".carousel-item.active .colorCanvas");
-if (firstSvg) {
-    firstSvg.dataset.drawn = "true";
-    await drawTrack(firstSvg);
-}
+        const data = await response.json();
 
-const carouselEl = document.getElementById("trackCarousel");
-carouselEl.addEventListener("slid.bs.carousel", async (e) => {
-    const svg = e.relatedTarget.querySelector(".colorCanvas");
-    if (svg && !svg.dataset.drawn) {
-        svg.dataset.drawn = "true";
-        await drawTrack(svg);
-    }
-});
+        // get-tracks returns objects like { title, file_name, play_order }
+        // pull just the titles, since that's what buildCarousel/fetchColors expect
+        const referents = data.tracks.map(t => t.title);
+
+        buildCarousel(referents);
+
+        const firstSvg = document.querySelector(".carousel-item.active .colorCanvas");
+        if (firstSvg) {
+            firstSvg.dataset.drawn = "true";
+            await drawTrack(firstSvg);
+        }
+
+        const carouselEl = document.getElementById("trackCarousel");
+        carouselEl.addEventListener("slid.bs.carousel", async (e) => {
+            const svg = e.relatedTarget.querySelector(".colorCanvas");
+            if (svg && !svg.dataset.drawn) {
+                svg.dataset.drawn = "true";
+                await drawTrack(svg);
+            }
+        });
 
     } catch (err) {
         console.error("Failed to load tracks:", err);

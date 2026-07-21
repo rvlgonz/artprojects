@@ -11163,10 +11163,10 @@ section.resume-section .resume-section-content-center {
     .carousel, .carousel-inner, .carousel-item {
         height: auto;
     }
-    .carousel-caption {
+    #aboutVal .carousel-caption {
         display: none;
     }
-    .carousel-indicators {
+    #aboutVal .carousel-indicators {
         display: none;
     }
 }
