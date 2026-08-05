@@ -127,24 +127,7 @@
 
 <script>
 
-// const referents = [
-//     "Chicago, 2026 (1)",
-//     "Chicago, 2026 (2)",
-//     "Chicago, 2026 (3)",
-//     "Chicago, 2026 (4)",
-//     "Chicago, 2026 (6)",
-//     "an actor",
-//     "five thirty pm",
-//     "Chicago, 2026 (11)",
-//     "Chicago, 2026 (12)",
-//     "brains",
-//     "Chicago, 2026 (14)",
-//     "Cape Cod",
-//     "St. Paul, 2026",
-//     "a punk",
-// ];
 
-    /*let referents = [];*/
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -315,11 +298,14 @@ function buildCarousel(referents) {
 
         const colors = await fetchColors(track);
 
-        const submittedColor = sessionStorage.getItem("submittedColor");
+const submittedColor = sessionStorage.getItem("submittedColor");
+const submittedTrackTitle = sessionStorage.getItem("trackTitle"); // you already set this alongside submittedColor
 
-        if (submittedColor) {
-            colors.push(submittedColor);
-        }
+if (submittedColor && submittedTrackTitle === track) {
+    colors.push(submittedColor);
+    sessionStorage.removeItem("submittedColor");
+    sessionStorage.removeItem("trackTitle");
+}
 
         const svg = d3.select(svgElement);
         svg.selectAll("*").remove();
