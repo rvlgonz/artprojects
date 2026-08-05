@@ -450,7 +450,7 @@ if (submitColorBtn && colorPicker) {
             })
         });
 
-        window.location.href = "colornodes.html";
+        window.location.href = "colorcluster.html";
     });
 }
 

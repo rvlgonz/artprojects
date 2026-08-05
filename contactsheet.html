@@ -114,45 +114,46 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", async function() {
-        const trackTitle = sessionStorage.getItem("trackTitle");
-        const submittedColor = sessionStorage.getItem("submittedColor");
-        const nextIndex = sessionStorage.getItem("nextIndex");
-        const playOrder = JSON.parse(sessionStorage.getItem("playOrder") || "[]");
-        const grid = document.getElementById("contactSheetGrid");
-        const nextBtn = document.getElementById("nextTrackBtn");
+    const trackTitle = sessionStorage.getItem("trackTitle");
+    const submittedColor = sessionStorage.getItem("submittedColor");
+    const nextIndex = sessionStorage.getItem("nextIndex");
+    const playOrder = JSON.parse(sessionStorage.getItem("playOrder") || "[]");
+    const grid = document.getElementById("contactSheetGrid");
+    const nextBtn = document.getElementById("nextTrackBtn");
 
-        // fetch colors and render grid
-        let colors = [submittedColor];
-        try {
-            const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
-            const data = await response.json();
-            if (data.colors && data.colors.length > 0) {
-                colors = data.colors;
-            }
-        } catch (err) {
-            console.error("Failed to fetch colors:", err);
+    let colors = [submittedColor];
+    try {
+        const response = await fetch("/.netlify/functions/get-colors?track=" + encodeURIComponent(trackTitle));
+        const data = await response.json();
+        if (data.colors && data.colors.length > 0) {
+            colors = data.colors;
         }
+    } catch (err) {
+        console.error("Failed to fetch colors:", err);
+    }
 
-        // build grid
-        const n = colors.length;
-        const cols = Math.ceil(Math.sqrt(n));
-        const rows = Math.ceil(n / cols);
-        grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-        grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    // clear so a stale revisit/back-navigation can't reuse this submission
+    sessionStorage.removeItem("submittedColor");
+    sessionStorage.removeItem("trackTitle");
 
-        colors.forEach(color => {
-            const tile = document.createElement("div");
-            tile.style.backgroundColor = color;
-            grid.appendChild(tile);
-        });
+    const n = colors.length;
+    const cols = Math.ceil(Math.sqrt(n));
+    const rows = Math.ceil(n / cols);
+    grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
-        // next button — save new index and go back
-        nextBtn.addEventListener("click", function() {
-            sessionStorage.setItem("startIndex", nextIndex);
-            sessionStorage.setItem("playOrder", JSON.stringify(playOrder));
-            window.location.href = "VoiceColor.html";
-        });
+    colors.forEach(color => {
+        const tile = document.createElement("div");
+        tile.style.backgroundColor = color;
+        grid.appendChild(tile);
     });
+
+    nextBtn.addEventListener("click", function() {
+        sessionStorage.setItem("startIndex", nextIndex);
+        sessionStorage.setItem("playOrder", JSON.stringify(playOrder));
+        window.location.href = "VoiceColor.html";
+    });
+});
     </script>
 </body>
 </html>
