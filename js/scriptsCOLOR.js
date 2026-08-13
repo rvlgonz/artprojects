@@ -415,20 +415,102 @@ if (document.getElementById("color-picker-container")) {
 }
 
 
-    const hexDisplay = document.getElementById("hex-display");
-    const pickerView = document.getElementById("aboutColor");
+function hexToHSL(hex) {
+    let r = parseInt(hex.slice(1, 3), 16) / 255;
+    let g = parseInt(hex.slice(3, 5), 16) / 255;
+    let b = parseInt(hex.slice(5, 7), 16) / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) {
+        h = s = 0;
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
 
-    if (colorPicker) {
+function hslToHex(h, s, l) {
+    s /= 100; l /= 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - c / 2;
+    let r, g, b;
+    if (h < 60) [r, g, b] = [c, x, 0];
+    else if (h < 120) [r, g, b] = [x, c, 0];
+    else if (h < 180) [r, g, b] = [0, c, x];
+    else if (h < 240) [r, g, b] = [0, x, c];
+    else if (h < 300) [r, g, b] = [x, 0, c];
+    else [r, g, b] = [c, 0, x];
+    const toHex = v => Math.round((v + m) * 255).toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function getLuminance(hex) {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const [rs, gs, bs] = [r, g, b].map(c =>
+        c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+    );
+    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+function contrastRatio(hex1, hex2) {
+    const l1 = getLuminance(hex1);
+    const l2 = getLuminance(hex2);
+    const lighter = Math.max(l1, l2);
+    const darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+function getAccessibleComplement(bgHex) {
+    const { h, s } = hexToHSL(bgHex);
+    const complementHue = (h + 180) % 360;
+
+    // try a range of lightness values, keep the one closest to
+    // "natural" mid-lightness that still passes WCAG AA (4.5:1)
+    let best = null;
+    for (let l = 5; l <= 95; l += 5) {
+        const candidate = hslToHex(complementHue, Math.max(s, 40), l);
+        const ratio = contrastRatio(candidate, bgHex);
+        if (ratio >= 4.5) {
+            if (!best || Math.abs(l - 50) < Math.abs(best.l - 50)) {
+                best = { hex: candidate, l };
+            }
+        }
+    }
+    // fallback to black/white if nothing in the hue passes (rare)
+    return best ? best.hex : (getLuminance(bgHex) > 0.5 ? "#212529" : "#f8f9fa");
+}
+
+const hexDisplay = document.getElementById("hex-display");
+const pickerView = document.getElementById("aboutColor");
+
+if (colorPicker) {
     colorPicker.on("color:change", function(color) {
-    if (hexDisplay) {
-        hexDisplay.textContent = color.hexString;
-    }
+        if (hexDisplay) {
+            hexDisplay.textContent = color.hexString;
+        }
 
-    if (pickerView) {
-        pickerView.style.backgroundColor = color.hexString;
-        pickerView.style.transition = "background-color 0.2s ease";
-    }
-});
+        if (pickerView) {
+            pickerView.style.backgroundColor = color.hexString;
+            pickerView.style.transition = "background-color 0.2s ease";
+
+            const textColor = getAccessibleComplement(color.hexString);
+            pickerView.style.color = textColor;
+
+                        document.querySelectorAll(".dynamic-text").forEach(el => {
+                el.style.color = textColor;
+            });
+        }
+    });
 }
 
 if (submitColorBtn && colorPicker) {
@@ -453,5 +535,7 @@ if (submitColorBtn && colorPicker) {
         window.location.href = "colorcluster.html";
     });
 }
+
+
 
 });

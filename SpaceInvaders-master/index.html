@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Space Invaders</title>
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" href="Styles/main.css">
+    <!--link rel="icon" href="http://www.unixstickers.com/image/cache/data/stickers/spaceinvaders/Space-medium-invader.sh-600x600.png"-->
+  
+     <style>
+        /* Dark background overlay */
+        .popup-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 9999; /* Sit on top of all other elements */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* White popup box */
+        .popup-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        /* X buttton */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .close-btn:hover {
+            color: #f00;
+        }
+
+        .popup-box h1, h2, h3, h4, h5, h6 {
+          font-family: 'Press Start 2P', cursive;
+        }
+
+        #mute-btn{
+          font-family: 'Press Start 2P', cursive;
+        }
+
+
+    </style>
+
+  </head>
+  <body>
+    <canvas id="background-canvas"></canvas>
+    <canvas id="game-canvas" width="700" height="600"></canvas>
+        <!-- Popup -->
+    <div id="welcomePopup" class="popup-overlay">
+        <div class="popup-box">
+            <button id="closePopup" class="close-btn">&times;</button>
+            <h3>Your job is to keep the crabs in the ocean.</h3>
+            <h5>They don't want to stay in the ocean, but it's good for them, so you have to help put them back.</h5>
+            <h5>You have a seagull chief of staff to help you.</h5>
+            <h5>Throw a flashlight at the crabs to show your CoS where to go.</h5>
+            <h6>It's space invaders, but crabs.</h6>
+            <button id="mute-btn">🔊</button>
+        </div>
+    </div>
+
+    <script>
+        // Execute code as soon as the DOM tree is built
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("welcomePopup");
+            const closeBtn = document.getElementById("closePopup");
+
+            // Show the popup overlay
+            popup.style.display = "flex";
+
+            // Hide the popup when clicking X
+            closeBtn.addEventListener("click", () => {
+                popup.style.display = "none";
+            });
+
+            // Hide the popup when clicking outside the box
+            popup.addEventListener("click", (event) => {
+                if (event.target === popup) {
+                    popup.style.display = "none";
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript" src="Scripts/background.js"></script>
+    <script type="text/javascript" src="Scripts/script.js"></script>
+
+  </body>
+</html>

@@ -11224,3 +11224,19 @@ section.resume-section .resume-section-content-center {
     font-family: "Atkinson Hyperlegible Mono", monospace;
     color: #ee4343;
 }
+
+#prevBtn, #nextBtn {
+    background-color: #f8f9fa !important;
+    border-color: #001987 !important;
+    color: #c93c3c !important;
+}
+
+#prevBtn:hover, #nextBtn:hover {
+    background-color: #648cc1 !important;
+    border-color: #001987 !important;
+}
+
+#shuffleBtn:hover, #submitColorBtn:hover {
+    background-color: #f9b9b0 !important;
+    border-color: #001987 !important;
+}
