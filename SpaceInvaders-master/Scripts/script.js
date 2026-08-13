@@ -664,7 +664,7 @@ let drawRestart = function() {
   context.font = "15px 'Press Start 2P', cursive";
   context.fillStyle = "white";
       context.textAlign = "center";           // measure/draw relative to the x you give it
-    context.fillText("you failed your civic duty", canvas.width / 2, canvas.height / 2 - 100);
+
     context.fillText("Press ENTER to try again", canvas.width / 2, canvas.height / 2 + 100);
     context.textAlign = "left";              // reset, since other draw calls assume left-aligned
     drawRestart();
@@ -706,8 +706,10 @@ let drawNextLevel = function() {
 
 //draw the text indicating that the user has won
 let youWin = function() {
-  context.font = "40px 'Press Start 2P', cursive";
   context.fillStyle = "white";
+  context.font = "20px 'Press Start 2P', cursive";
+  context.fillText("You're very good with crabs", canvas.width / 2 - 250, canvas.height / 2 - 100);
+  context.font = "40px 'Press Start 2P', cursive";
   context.fillText("You Win!!!", canvas.width / 2 - 190, canvas.height / 2);
   drawRestart();
 
@@ -739,9 +741,11 @@ let checkGamePaused = function() {
 //if gameOver has been set to true, display the game over screen
 let checkGameOver = function() {
   if (gameOver) {
-    context.font = "40px 'Press Start 2P', cursive";
     context.fillStyle = "white";
-    context.textAlign = "center";           // measure/draw relative to the x you give it
+    context.textAlign = "center"; 
+    context.font = "20px 'Press Start 2P', cursive";         
+    context.fillText("you failed your civic duty", canvas.width / 2, canvas.height / 2 - 100);
+    context.font = "40px 'Press Start 2P', cursive";
     context.fillText("the crabs", canvas.width / 2, canvas.height / 2 - 25);
     context.fillText("got you :(", canvas.width / 2, canvas.height / 2 + 25);
     context.textAlign = "left";              // reset, since other draw calls assume left-aligned
