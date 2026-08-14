@@ -221,7 +221,7 @@ if (this.lasers.length < this.laserTotal) {
     this.lasers = [];
   }
 
-  //remove lasers from the characther's laser array as they disappear from the screen
+  //remove lasers from the character's laser array as they disappear from the screen
   removeLasers() {
     let removeLasers = [];
     let lasersToRemove = 0;
@@ -536,11 +536,11 @@ let enemyWidth = canvas.width / 19;
 let enemyHeight = canvas.height / 20;
 
 // Creates enemies for each level
-let createEnemies = function(speed) {
+let createEnemies = function(speed, enemynum) {
   numOfEnemies = 0;
   enemies = [];
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 5; j++) {
+  for (let i = 0; i < enemynum; i++) {
+    for (let j = 0; j < enemynum; j++) {
       let enemyType = j % 3;
       let fireRate = Math.floor(Math.random() * 2000) + 200;
       let x = i * (2 * enemyWidth * 1.15);
@@ -556,24 +556,43 @@ let createEnemies = function(speed) {
 let level1 = function() {
   level = 1;
   let speed = 2;
-  createEnemies(speed);
+  let enemynum = 5;
+  createEnemies(speed, enemynum);
 }
 
 let level2 = function() {
   level = 2;
   let speed = 3;
-  createEnemies(speed);
+  let enemynum = 5;
+  createEnemies(speed, enemynum);
 }
 
 let level3 = function() {
   level = 3;
   let speed = 4;
-  createEnemies(speed);
+  let enemynum = 5;
+  createEnemies(speed, enemynum);
+}
+
+let level4 = function() {
+  level = 4;
+  let speed = 3;
+  let enemynum = 6;
+  createEnemies(speed, enemynum);
+}
+
+let level5 = function() {
+  level = 4;
+  let speed = 4;
+  let enemynum = 6;
+  createEnemies(speed, enemynum);
 }
 
 levels.push(level1);
 levels.push(level2);
 levels.push(level3);
+levels.push(level4);
+levels.push(level5);
 
 // initialize the start of the game
 let init = function() {
