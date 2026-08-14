@@ -113,40 +113,81 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const data = await response.json();
 
+        console.log("Vals received:", data.vals);
+
+        buildValsCarousel(data.vals);
+
     } catch (err) {
-        console.error("Failed to load cards:", err);
+        console.error("Failed to load vals:", err);
     }
 });
+
 
 function randomColor() {
     const hue = Math.floor(Math.random() * 360);
     return `hsl(${hue}, 60%, 55%)`;
 }
 
-    function buildValsCarousel(vals) {
-    const container = document.getElementById("valsCarousel");
-    container.innerHTML = "";
 
-    vals.forEach(val => {
+function buildValsCarousel(vals) {
+
+    const container = document.querySelector("#valCarousel .carousel-inner");
+    const indicators = document.querySelector("#valCarousel .carousel-indicators");
+
+    container.innerHTML = "";
+    indicators.innerHTML = "";
+
+    vals.forEach((val, index) => {
+
+        // Create carousel indicator
+        const indicator = document.createElement("button");
+
+        indicator.type = "button";
+        indicator.setAttribute("data-bs-target", "#valCarousel");
+        indicator.setAttribute("data-bs-slide-to", index);
+        indicator.setAttribute("aria-label", `Slide ${index + 1}`);
+
+        if (index === 0) {
+            indicator.classList.add("active");
+            indicator.setAttribute("aria-current", "true");
+        }
+
+        indicators.appendChild(indicator);
+
+
+        // Create slide
         const slide = document.createElement("div");
-        slide.className = "val-slide";
+
+        slide.className = "carousel-item val-slide";
         slide.style.backgroundColor = randomColor();
 
+        if (index === 0) {
+            slide.classList.add("active");
+        }
+
+
+        // Name
         const nameEl = document.createElement("div");
         nameEl.className = "val-name";
         nameEl.textContent = val.name;
 
+
+        // Year
         const yearEl = document.createElement("div");
         yearEl.className = "val-year";
         yearEl.textContent = val.year;
 
+
+        // Message
         const messageEl = document.createElement("div");
         messageEl.className = "val-message";
         messageEl.textContent = val.message;
 
+
         slide.appendChild(nameEl);
         slide.appendChild(yearEl);
         slide.appendChild(messageEl);
+
         container.appendChild(slide);
     });
 }
