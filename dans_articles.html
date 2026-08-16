@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title id="pageTitle">Loading...</title>
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="articleContent">
+        <p>Loading article...</p>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get("slug");
+        const container = document.getElementById("articleContent");
+
+        if (!slug) {
+            container.innerHTML = "<p>No article specified.</p>";
+            return;
+        }
+
+        try {
+            const response = await fetch("/.netlify/functions/get-article?slug=" + encodeURIComponent(slug));
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const data = await response.json();
+            const article = data.article;
+
+            if (!article) {
+                container.innerHTML = "<p>Article not found.</p>";
+                return;
+            }
+
+            document.getElementById("pageTitle").textContent = article.title;
+
+            container.innerHTML = `
+                <h1>${article.title}</h1>
+                <div class="meta-date">${article.created_at}</div>
+                <span class="cat">${article.cat}</span>
+                <div class="article-body">${article.article}</div>
+            `;
+
+        } catch (err) {
+            console.error("Failed to load article:", err);
+            container.innerHTML = "<p>Something went wrong loading this article.</p>";
+        }
+    });
+    </script>
+</body>
+</html>

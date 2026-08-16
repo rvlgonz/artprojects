@@ -11209,6 +11209,12 @@ section.resume-section .resume-section-content-center {
     align-items: center;
 }
 
+  #aboutArticle {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
 #aboutColor .resume-section-content-hex {
     padding-top: 6rem;
 }

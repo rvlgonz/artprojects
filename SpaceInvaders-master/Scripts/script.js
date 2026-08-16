@@ -542,7 +542,7 @@ let createEnemies = function(speed, enemynum) {
   for (let i = 0; i < enemynum; i++) {
     for (let j = 0; j < enemynum; j++) {
       let enemyType = j % 3;
-      let fireRate = Math.floor(Math.random() * 2000) + 200;
+      let fireRate = Math.floor(Math.random() * 5000) + 200;
       let x = i * (2 * enemyWidth * 1.15);
       let y = j * (1.5 * enemyHeight) + 55;
 

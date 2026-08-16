@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>RG - valentines</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon (1).ico" />
+        <title>RG - good feelings</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon (sd).ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -37,8 +37,9 @@
 }
 
 .val-name {
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: bold;
+    padding-top: 1rem;
 }
 
 .val-year {
@@ -47,7 +48,7 @@
 }
 
 .val-message {
-    font-size: 1.25rem;
+    font-size: 2rem;
     margin-top: 1rem;
     max-width: 60%;
 }
@@ -85,8 +86,8 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none"><img class="img-fluid img-nav rounded-circle mx-auto mb-0" src="assets/img/logo.png" alt="..." /></span>
-                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/logo.png" alt="..." /></span>
+                <span class="d-block d-lg-none"><img class="img-fluid img-nav rounded-circle mx-auto mb-0" src="assets/img/logoSD.png" alt="..." /></span>
+                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/logoSD.png" alt="..." /></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -217,56 +218,64 @@ function buildValsCarousel(vals) {
     container.innerHTML = "";
     indicators.innerHTML = "";
 
+    // ----- TITLE SLIDE (always first) -----
+    const titleIndicator = document.createElement("button");
+    titleIndicator.type = "button";
+    titleIndicator.setAttribute("data-bs-target", "#valCarousel");
+    titleIndicator.setAttribute("data-bs-slide-to", "0");
+    titleIndicator.setAttribute("aria-label", "Title slide");
+    titleIndicator.classList.add("active");
+    titleIndicator.setAttribute("aria-current", "true");
+    indicators.appendChild(titleIndicator);
+
+    const titleSlide = document.createElement("div");
+    titleSlide.className = "carousel-item val-slide active";
+    const backgroundColortitle = "rgba(254, 194, 194, 0.5)"; // light pink with some transparency
+    titleSlide.style.backgroundImage = `linear-gradient(${backgroundColortitle}, ${backgroundColortitle}),url('assets/img/logoSD.png')`;
+
+    const titleHeading = document.createElement("div");
+    titleHeading.className = "val-message";
+    titleHeading.textContent = "you are a good feeling";
+
+    titleSlide.appendChild(titleHeading);
+    container.appendChild(titleSlide);
+
+    // ----- DATA SLIDES (start at index 1) -----
     vals.forEach((val, index) => {
+        const slideIndex = index + 1; // shift by one to account for title slide
 
-        // Create carousel indicator
         const indicator = document.createElement("button");
-
         indicator.type = "button";
         indicator.setAttribute("data-bs-target", "#valCarousel");
-        indicator.setAttribute("data-bs-slide-to", index);
-        indicator.setAttribute("aria-label", `Slide ${index + 1}`);
-
-        if (index === 0) {
-            indicator.classList.add("active");
-            indicator.setAttribute("aria-current", "true");
-        }
-
+        indicator.setAttribute("data-bs-slide-to", slideIndex);
+        indicator.setAttribute("aria-label", `Slide ${slideIndex + 1}`);
         indicators.appendChild(indicator);
 
-
-        // Create slide
         const slide = document.createElement("div");
-
         slide.className = "carousel-item val-slide";
         slide.style.backgroundColor = randomColor();
+        // no more "if index === 0, add active" — title slide owns that now
 
-        if (index === 0) {
-            slide.classList.add("active");
-        }
+        const titleEl = document.createElement("div");
+        titleEl.className = "val-title";
+        titleEl.textContent = "you are";
 
-
-        // Name
         const nameEl = document.createElement("div");
         nameEl.className = "val-name";
         nameEl.textContent = val.name;
 
-
-        // Year
         const yearEl = document.createElement("div");
         yearEl.className = "val-year";
         yearEl.textContent = val.year;
 
-
-        // Message
         const messageEl = document.createElement("div");
         messageEl.className = "val-message";
         messageEl.textContent = val.message;
 
-
+        slide.appendChild(titleEl);
+        slide.appendChild(messageEl);
         slide.appendChild(nameEl);
         slide.appendChild(yearEl);
-        slide.appendChild(messageEl);
 
         container.appendChild(slide);
     });
@@ -278,7 +287,6 @@ function buildValsCarousel(vals) {
         ride: false
     });
 }
-
 
 </script>
 
