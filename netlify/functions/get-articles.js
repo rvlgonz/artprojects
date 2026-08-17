@@ -10,7 +10,7 @@ exports.handler = async function(event) {
         const { data, error } = await supabase
             .from("dans_articles")
             .select("title, created_at, cat, tagline, article, slug")
-            .order("created_at", { ascending: true });
+            .order("created_at", { ascending: false });
 
         if (error) throw error;
 
