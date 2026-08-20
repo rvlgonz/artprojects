@@ -112,8 +112,14 @@ header {
     flex-grow: 1;
 }
 
+.cat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+
 .cat {
-    align-self: flex-start;
     background-color: #e3f2fd;
     color: #0076ff;
     font-size: 0.75rem;
@@ -121,7 +127,7 @@ header {
     text-transform: uppercase;
     padding: 0.25rem 0.6rem;
     border-radius: 4px;
-    margin-bottom: 0.75rem;
+    /* remove align-self and margin-bottom here — now handled by .cat-row */
 }
 
 .card h2 {
@@ -204,7 +210,7 @@ footer {
 <section id="danArticlesDisplay">     
     <header>
         <div class="header-container">
-            <h1 class="logo">Dan's <span>Blog</span></h1>
+            <h1 class="logo"><a href="dan_articles_display.html" style="text-decoration: none;">Dan's <span>Blog</span></a></h1>
             <input type="text" id="searchBar" placeholder="Search articles by title or tags...">
         </div>
     </header>
@@ -251,20 +257,23 @@ function displayPosts(postsToRender) {
     }
 
     postsToRender.forEach(post => {
-        const cardElement = document.createElement("article");
-        cardElement.classList.add("card");
+    const cardElement = document.createElement("article");
+    cardElement.classList.add("card");
 
-        cardElement.innerHTML = `
-            <div class="card-content">
-                <span class="cat">${post.cat}</span>
-                <h2>${post.title}</h2>
-                <div class="meta-date">${new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                <p>${post.tagline}</p>
-                <a href="dans_articles.html?slug=${encodeURIComponent(post.slug)}" class="read-more">Read Full Article &rarr;</a>
-            </div>
-        `;
-        gridContainer.appendChild(cardElement);
-    });
+    const catList = post.cat.split(/[,;|]/).map(cat => cat.trim()).filter(Boolean);
+    const catTags = `<div class="cat-row">${catList.map(cat => `<span class="cat">${cat}</span>`).join('')}</div>`;
+
+    cardElement.innerHTML = `
+        <div class="card-content">
+            ${catTags}
+            <h2>${post.title}</h2>
+            <div class="meta-date">${new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+            <p>${post.tagline}</p>
+            <a href="dans_articles.html?slug=${encodeURIComponent(post.slug)}" class="read-more">Read Full Article &rarr;</a>
+        </div>
+    `;
+    gridContainer.appendChild(cardElement);
+});
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -310,19 +319,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     // this now runs after we know which data source we're using
     displayPosts(dansArticles);
 
-    searchBar.addEventListener("input", (e) => {
-        const searchString = e.target.value.toLowerCase();
+searchBar.addEventListener("input", (e) => {
+    const rawSearch = e.target.value.toLowerCase();
 
-        const filteredPosts = dansArticles.filter(post => {
-            return (
-                post.title.toLowerCase().includes(searchString) ||
-                post.tagline.toLowerCase().includes(searchString)||
-                post.cat.toLowerCase().includes(searchString)
-            );
-        });
+    const searchTerms = rawSearch.split(/[;,]/).map(term => term.trim()).filter(Boolean);
 
-        displayPosts(filteredPosts);
+    const filteredPosts = dansArticles.filter(post => {
+        const catList = post.cat.split(/[;,]/).map(cat => cat.trim().toLowerCase());
+        const titleLower = post.title.toLowerCase();
+        const taglineLower = post.tagline.toLowerCase();
+
+        const termMatches = term =>
+            catList.some(cat => cat.includes(term)) ||
+            titleLower.includes(term) ||
+            taglineLower.includes(term);
+
+        if (searchTerms.length > 1) {
+            // every comma/semicolon-separated term must match something
+            // (a category, the title, or the tagline)
+            return searchTerms.every(termMatches);
+        }
+
+        const singleTerm = searchTerms[0] || "";
+        return termMatches(singleTerm);
     });
+
+    displayPosts(filteredPosts);
+});
 
 });
 

@@ -123,8 +123,9 @@ setTimeout(async () => {
         }
 
         // add submitted color
-        if (submittedColor) colors.push(submittedColor);
-
+        if (submittedColor && !colors.includes(submittedColor)) {
+    colors.push(submittedColor);
+}
         // calculate average
         const avgColor = colors.length > 0 ? averageColors(colors) : "#ffffff";
         const concat= "[" + avgColor + "]";
