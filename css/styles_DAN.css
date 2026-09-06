@@ -406,7 +406,7 @@ section.content-section-bio {
     text-align: center;
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-bottom: var(--navbar-height);
+    scroll-margin-top: var(--navbar-height);
     min-height: 100vh;
     padding-top:0rem;
     margin-top: 0rem;
