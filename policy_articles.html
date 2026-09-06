@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>DG - Policy Database</title>
+        <title>DG - Policy Database - Articles</title>
         <link rel="icon" type="image/x-icon" href="assets/img/dan prof.jpg" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -24,17 +24,19 @@
         <img class="img-fluid img-nav rounded-circle" src="assets/img/dan prof.jpg" alt="Profile" />
     </a>
 
-    <h1 class="nav-title fraunces-title" style="font-size:30px">Policy Database</h1>
+<a class="nav-link nav-title-link fraunces-title" href="policy_homepage.html">
+    <h1 style="font-size:30px" class="m-0 fraunces-title">Policy Database</h1>
+</a>
     <button class="navbar-toggler-bio" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav">
-            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_homepage.html">Home page</a></li>
-            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_bio.html">About</a></li>
-            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contact.html">Contact form</a></li>
-            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contributors.html">Contributors submission</a></li>
+            <li class="nav-item dropdown"><a class="nav-link" href="policy_homepage.html">Home page</a></li>
+            <li class="nav-item dropdown"><a class="nav-link" href="policy_bio.html">About</a></li>
+            <li class="nav-item dropdown"><a class="nav-link" href="policy_contact.html">Contact form</a></li>
+            <li class="nav-item dropdown"><a class="nav-link" href="policy_contributor.html">Contributors submission</a></li>
        </ul>
     </div>
 </nav>
@@ -71,25 +73,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         document.title = article.title;
         
-            container.innerHTML = `
-                
-<section id="danArticlesDisplayFULL">     
-                <hr class="m-0" />
-                <section class="resume-section" id="articleBody">
-                <div class="resume-section-content">
-                <span class="cat">${article.cat}</span>
-                <h1 style="padding: 20px">${article.title}</h1>
-                <div class="meta-date">${new Date(article.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                ${article.file ? `
-                <div class="pdf-embed-wrapper">
-                    <iframe src="${article.file}" title="${article.title} PDF" width="100%" height="800" style="border: 1px solid #ced4da; border-radius: 4px;"></iframe>
-                    <p><a href="${article.file}" target="_blank" rel="noopener">Open PDF in a new tab &rarr;</a></p>
-                </div>
-                ` : ''}
-                <div class="article-body">${article.article}</div>
-                                    </div>
-            </section>
-            `;
+container.innerHTML = `
+<section class="content-main-section" id="articleBody">
+    <div class="content-section-article">
+        <h1 style="padding-top: .8rem; padding-bottom:0rem">${article.title}</h1>
+        <span class="cat">${article.cat}</span>
+        <div class="meta-date" style="padding-top: .8rem;">${new Date(article.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        <div class="article-body">${article.article}</div>
+        ${article.file ? `
+        <div class="pdf-embed-wrapper">
+            <p><a href="${article.file}" target="_blank" rel="noopener">Open PDF in a new tab &rarr;</a></p>
+            <iframe src="${article.file}" title="${article.title} PDF" width="100%" height="800" style="border: 1px solid #ced4da; border-radius: 4px;"></iframe>
+        </div>
+        ` : ''}
+    </div>
+</section>
+`;
         
         const listResponse = await fetch("/.netlify/functions/get-articles");
         if (!listResponse.ok) throw new Error(`HTTP ${listResponse.status}`);
@@ -125,6 +124,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>document.addEventListener("click", function (event) {
+    const navbarCollapse = document.getElementById("navbarResponsive");
+    const toggler = document.querySelector(".navbar-toggler, .navbar-toggler-bio");
+
+    if (!navbarCollapse.classList.contains("show")) return; // menu isn't open, nothing to do
+
+    const clickedInsideMenu = navbarCollapse.contains(event.target);
+    const clickedToggler = toggler && toggler.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedToggler) {
+        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+        if (bsCollapse) {
+            bsCollapse.hide();
+        }
+    }
+});</script>
 
 </body>
 </html>

@@ -1,3 +1,5 @@
+
+
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
@@ -8,15 +10,15 @@ const supabase = createClient(
 exports.handler = async function(event) {
     try {
         const { data, error } = await supabase
-            .from("dans_articles")
-            .select("title, created_at, cat, tagline, article, slug")
+            .from("policy_articles")
+            .select("title, created_at, cat, tagline, article, file, slug")
             .order("created_at", { ascending: false });
 
         if (error) throw error;
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ "dans_articles": data })
+            body: JSON.stringify({ "policy_articles": data })
         };
     } catch (err) {
         console.log("Error:", err.message);

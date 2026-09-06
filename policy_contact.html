@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>DG - Policy Database</title>
+        <title>Policy Database - Contact</title>
         <link rel="icon" type="image/x-icon" href="assets/img/dan prof.jpg" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -24,7 +24,9 @@
         <img class="img-fluid img-nav rounded-circle" src="assets/img/dan prof.jpg" alt="Profile" />
     </a>
 
-    <h1 class="nav-title fraunces-title" style="font-size:30px">Policy Database</h1>
+<a class="nav-link nav-title-link fraunces-title" href="policy_homepage.html">
+    <h1 style="font-size:30px" class="m-0 fraunces-title">Policy Database</h1>
+</a>
     <button class="navbar-toggler-bio" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,7 +36,7 @@
             <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_homepage.html">Home page</a></li>
             <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_bio.html">About</a></li>
             <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contact.html">Contact form</a></li>
-            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contributors.html">Contributors submission</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contributor.html">Contributors submission</a></li>
        </ul>
     </div>
 </nav>
@@ -49,7 +51,7 @@
     <label for="FormName">Name</label>
     <input type="text" id="nameInput" class="form-control" placeholder="Your name">
   </div>
-  <div class="form-group" style="padding-top: 2rem; width:65%; margin-left:auto; margin-right:auto;">
+  <div class="form-group" style="padding-top: 1rem; width:65%; margin-left:auto; margin-right:auto;">
     <label for="FormPurpose">Purpose</label>
     <select class="form-select" id="purposeSelect">
       <option value="submission">General</option>
@@ -59,16 +61,16 @@
     </select>
   </div>
 
-  <div class="form-group" style="padding-top: 2rem;">
+  <div class="form-group" style="padding-top: 1rem;">
     <label for="FormEmail">Email address, for contacting you</label>
     <input type="email" id="emailInput" class="form-control" placeholder="name@example.com">
   </div>
-  <div class="form-group" style="padding-top: 2rem;">
+  <div class="form-group" style="padding-top: 1rem;">
     <label for="FormText">Message</label>
     <textarea class="form-control" id="commentInput" rows="4" placeholder="Message"></textarea>
   </div>
-  <div class="d-flex flex-column" style="padding-top: 2rem;">
-<button type="button" class="btn" style="width: 100px;">Send</button>
+  <div class="d-flex flex-column" style="padding-top: 1rem;">
+<button type="button" class="btn" style="width: 70px;">Send</button>
                         <p id="uploadStatus" style="display:none;"></p>
                         <p id="submitConfirm"
                            style="display:none;">
@@ -82,6 +84,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>document.addEventListener("click", function (event) {
+    const navbarCollapse = document.getElementById("navbarResponsive");
+    const toggler = document.querySelector(".navbar-toggler, .navbar-toggler-bio");
+
+    if (!navbarCollapse.classList.contains("show")) return; // menu isn't open, nothing to do
+
+    const clickedInsideMenu = navbarCollapse.contains(event.target);
+    const clickedToggler = toggler && toggler.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedToggler) {
+        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+        if (bsCollapse) {
+            bsCollapse.hide();
+        }
+    }
+});</script>
 
 </body>
 </html>
