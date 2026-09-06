@@ -225,9 +225,9 @@ body {
 }
 
 #searchBar {
-    height: 2rem;        /* explicit height instead of padding-derived */
-    line-height: 2rem;   /* match line-height to height so text centers reliably */
-    padding: 0 1.2rem;     /* horizontal padding only now */
+    height: 2rem;       
+    line-height: 2rem; 
+    padding: 0 1.2rem;  
     border: 1px solid #ced4da;
     border-radius: 20px;
     width: 200px;
@@ -407,6 +407,7 @@ section.content-section-bio {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-bottom: var(--navbar-height);
+    min-height: 100vh;
     padding-top:0rem;
     margin-top: 0rem;
 }
