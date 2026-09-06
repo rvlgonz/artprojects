@@ -14,7 +14,7 @@ exports.handler = async function(event) {
 
     try {
         const { data, error } = await supabase
-            .from("dans_articles")
+            .from("policy_articles")
             .select("*")
             .eq("slug", slug)
             .single();

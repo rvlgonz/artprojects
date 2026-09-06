@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>DG - Policy Database</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/dan prof.jpg" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5..112.5,300..900;1,5..1200,87.5..112.5,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="css/styles_DAN.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="topNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+        <img class="img-fluid img-nav rounded-circle" src="assets/img/dan prof.jpg" alt="Profile" />
+    </a>
+
+    <h1 class="nav-title fraunces-title" style="font-size:30px">Policy Database</h1>
+    <button class="navbar-toggler-bio" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_homepage.html">Home page</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_bio.html">About</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contact.html">Contact form</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contributors.html">Contributors submission</a></li>
+       </ul>
+    </div>
+</nav>
+
+<div id="articleContent">
+        <p>Loading article...</p>
+    </div>
+    <div id="articleNav"></div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
+    const container = document.getElementById("articleContent");
+    const navContainer = document.getElementById("articleNav");
+
+    if (!slug) {
+        container.innerHTML = "<p>No article specified.</p>";
+        return;
+    }
+
+    try {
+        // fetch the single article for display
+        const response = await fetch("/.netlify/functions/get-article?slug=" + encodeURIComponent(slug));
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        const article = data.article;
+
+        if (!article) {
+            container.innerHTML = "<p>Article not found.</p>";
+            return;
+        }
+
+        document.title = article.title;
+        
+            container.innerHTML = `
+                
+<section id="danArticlesDisplayFULL">     
+                <hr class="m-0" />
+                <section class="resume-section" id="articleBody">
+                <div class="resume-section-content">
+                <span class="cat">${article.cat}</span>
+                <h1 style="padding: 20px">${article.title}</h1>
+                <div class="meta-date">${new Date(article.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                ${article.file ? `
+                <div class="pdf-embed-wrapper">
+                    <iframe src="${article.file}" title="${article.title} PDF" width="100%" height="800" style="border: 1px solid #ced4da; border-radius: 4px;"></iframe>
+                    <p><a href="${article.file}" target="_blank" rel="noopener">Open PDF in a new tab &rarr;</a></p>
+                </div>
+                ` : ''}
+                <div class="article-body">${article.article}</div>
+                                    </div>
+            </section>
+            `;
+        
+        const listResponse = await fetch("/.netlify/functions/get-articles");
+        if (!listResponse.ok) throw new Error(`HTTP ${listResponse.status}`);
+
+        const listData = await listResponse.json();
+        const allArticles = listData["policy_articles"];
+
+        const currentIndex = allArticles.findIndex(a => a.slug === slug);
+
+        const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
+        const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
+
+        navContainer.innerHTML = `
+            <div class="article-nav">
+                ${prevArticle
+                    ? `<a href="policy_articles.html?slug=${encodeURIComponent(prevArticle.slug)}" class="nav-prev">&larr; ${new Date(prevArticle.created_at).toLocaleDateString()}</a>`
+                    : `<span class="nav-prev disabled"></span>`
+                }
+                ${nextArticle
+                    ? `<a href="policy_articles.html?slug=${encodeURIComponent(nextArticle.slug)}" class="nav-next">${new Date(nextArticle.created_at).toLocaleDateString()} &rarr;</a>`
+                    : `<span class="nav-next disabled"></span>`
+                }
+            </div>
+        `;
+
+    } catch (err) {
+        console.error("Failed to load article:", err);
+        container.innerHTML = "<p>Something went wrong loading this article.</p>";
+    }
+});
+    </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

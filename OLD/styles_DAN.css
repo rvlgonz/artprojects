@@ -1,0 +1,339 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.nav{
+    padding: 0 !important;
+}
+.navbar {
+    background-color: #6e9373 !important;
+   font-family: -apple-system, "Work Sans", Roboto, sans-serif;
+   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar .navbar-brand {
+    margin-left: 1rem !important;
+}
+
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  background-image: var(--bs-navbar-toggler-icon-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.navbar-toggler {
+  padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--bs-navbar-color);
+  background-color: transparent;
+  border: var(--bs-border-width) solid var(--bs-navbar-toggler-border-color);
+  border-radius: var(--bs-navbar-toggler-border-radius);
+  transition: var(--bs-navbar-toggler-transition);
+  margin-left: auto;  /* pushes toggler (and collapse menu on desktop) to the far right */
+}
+
+.resume-section .resume-section-content p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+#bio.resume-section {
+  padding-top: .5rem !important;
+  margin-bottom: 0rem !important;
+}
+  
+  .navbar-toggler {
+    padding: .25rem .75rem !important;
+    margin-right: 2rem !important;
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+    margin-left: 1rem !important; 
+}
+
+.navbar-toggler-icon {
+    width: 1.5em !important;
+    height: 1.5em !important;
+    display: inline-block !important;
+}
+
+#topNav {
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 5rem;
+    align-items: center;
+        border-bottom: .25rem solid rgba(0, 0, 0, 0.25);
+
+}
+
+.navbar-collapse {
+    display: none !important;
+}
+
+.navbar-collapse.show {
+    display: flex !important;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.navbar-brand {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 2%;
+  margin-right: 3rem;
+  font-size: var(--bs-navbar-brand-font-size);
+  color: var(--bs-navbar-brand-color);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+#topNav .navbar-brand {
+    margin-right: 0; /* remove default bootstrap spacing if you don't want it pushing things */
+}
+
+#topNav .img-nav {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border: 0.15rem solid rgba(255, 255, 255, 0.2);
+}
+
+#topNav .nav-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 1.25rem;
+    color: #fff;        /* match navbar-dark text color */
+    white-space: nowrap;
+    pointer-events: none; /* optional: so it doesn't block clicks on things behind it */
+}
+
+.navbar-collapse {
+    display: none !important;
+}
+
+.navbar-collapse.show {
+    display: block !important;
+    position: absolute;
+    top: 120%;           /* sit right below the navbar */
+    right: 1rem;          /* aligns under the toggler; adjust to taste */
+    left: auto;           /* prevents it from stretching full width */
+    width: auto;
+    min-width: 200px;
+    background-color: #efefef;   /* match navbar, or use a contrasting dropdown color */
+    border: .25rem solid rgba(0, 0, 0, 0.25);
+    border-radius: 0.25rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    padding: 0.5rem 0;
+    z-index: 1000;
+}
+
+.navbar-collapse .navbar-nav {
+    flex-direction: column;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.navbar-collapse .nav-item {
+    width: 100%;
+    list-style: none;
+    padding-top:1rem;
+    padding-bottom:1rem;
+    margin-left:0rem;
+}
+
+.navbar-collapse .nav-link {
+    padding: 0.75rem 1.25rem;
+    white-space: nowrap;
+}
+
+.navbar-collapse .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.logo span {
+    color: #0076ff;
+}
+
+#searchBar {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    width: 200px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#searchBar:focus {
+    border-color: #6e9373;
+}
+
+/* Layout Container */
+.blog-container {
+    max-width: 100vw;
+    height: auto;
+    overflow: hidden;
+    padding: 3rem 1.5rem;
+}
+
+#danArticlesDisplay {
+    margin: 0rem; /* match #topNav's min-height, or a bit more for breathing room */
+    background-image: url("assets/img/IMG_5461.jpeg");
+    background-size: cover;
+    background-position: center;
+    max-width: 100vw;
+    padding-top: var(--navbar-height);
+    min-height: calc(100vh - var(--navbar-height));
+    box-sizing: border-box; /* so padding-top doesn't add on top of the height, pushing it taller than the viewport */
+    height: auto; /* make sure nothing is forcing a hard height here either */
+}
+
+
+/* CSS Grid for Blog Cards */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        height: auto;
+    overflow: visible;
+    gap: 2rem;
+}
+
+/* Blog Card Styles */
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.cat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.cat {
+    background-color: #6e9373 ;
+    color: #fffddb ;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    /* remove align-self and margin-bottom here — now handled by .cat-row */
+}
+
+.card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+}
+
+.meta-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    font-size: 0.95rem;
+    color: #495057;
+    margin-bottom: 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+.read-more {
+    margin-top: auto;
+    color: #6e9373;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+:root {
+    --navbar-height: 5rem;
+}
+
+.nav-search-wrapper {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .nav-search-wrapper {
+        display: none; /* or move search bar into the dropdown collapse menu instead */
+    }
+}
+
+.fraunces-title {
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+}
+
+ul li a {
+  text-decoration: none;
+}
