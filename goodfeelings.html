@@ -37,18 +37,18 @@
 }
 
 .val-name {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: bold;
     padding-top: 1rem;
 }
 
 .val-year {
-    font-size: 1rem;
+    font-size: .75rem;
     opacity: 0.8;
 }
 
 .val-message {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 1rem;
     max-width: 60%;
 }
@@ -64,7 +64,7 @@
 
 #valCarousel .carousel-indicators button {
     background-color: rgba(255, 255, 255, 0.8);
-    opacity: 2;
+    opacity: 3;
 }
 
 #valCarousel .carousel-indicators button.active {
@@ -72,7 +72,7 @@
 }
 
 #valCarousel .carousel-control-prev {
-    left: 40px;
+    left: 2.9rem;
 }
 
 #valCarousel .carousel-control-prev-icon, .carousel-control-next-icon {
@@ -206,9 +206,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function randomColor() {
     const hue = Math.floor(Math.random() * 360);
-    return `hsl(${hue}, 60%, 55%)`;
+    return `hsl(${hue}, 30%, 75%)`;
 }
 
+function wrapWithHighlight(el, color = 'rgba(255, 255, 255, 0.4)') {
+    const wrapper = document.createElement('span');
+    wrapper.style.position = 'relative';
+    wrapper.style.display = 'block';
+    wrapper.style.width = 'fit-content';
+    wrapper.style.maxWidth = '70%';   // room to grow, see below
+    wrapper.style.padding = '0.75rem 1rem';  // gives text breathing room inside the box
+
+    const box = document.createElement('span');
+    box.style.position = 'absolute';
+    box.style.backgroundColor = color;
+    box.style.zIndex = '0';
+    box.style.inset = '0';   // fills wrapper exactly — padding above does the "extra space" job now
+
+    el.style.position = 'relative';
+    el.style.zIndex = '1';
+
+    wrapper.appendChild(box);
+    wrapper.appendChild(el);
+    return wrapper;
+}
 
 function buildValsCarousel(vals) {
 
@@ -230,31 +251,47 @@ function buildValsCarousel(vals) {
 
     const titleSlide = document.createElement("div");
     titleSlide.className = "carousel-item val-slide active";
-    const backgroundColortitle = "rgba(254, 194, 194, 0.5)"; // light pink with some transparency
-    titleSlide.style.backgroundImage = `linear-gradient(${backgroundColortitle}, ${backgroundColortitle}),url('assets/img/logoSD.png')`;
+    const backgroundColortitle = "rgba(254, 112, 112, 1)"; // light pink with some transparency
+    titleSlide.style.backgroundImage = `linear-gradient(${backgroundColortitle}, ${backgroundColortitle})`;
 
     const titleHeading = document.createElement("div");
     titleHeading.className = "val-message";
+    titleHeading.style.fontSize = "5rem";
     titleHeading.textContent = "you are a good feeling";
 
     titleSlide.appendChild(titleHeading);
     container.appendChild(titleSlide);
 
     // ----- DATA SLIDES (start at index 1) -----
-    vals.forEach((val, index) => {
-        const slideIndex = index + 1; // shift by one to account for title slide
+    function randomColorWithOpacity(alpha = 0.5) {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
-        const indicator = document.createElement("button");
-        indicator.type = "button";
-        indicator.setAttribute("data-bs-target", "#valCarousel");
-        indicator.setAttribute("data-bs-slide-to", slideIndex);
-        indicator.setAttribute("aria-label", `Slide ${slideIndex + 1}`);
-        indicators.appendChild(indicator);
+vals.forEach((val, index) => {
+  const slideIndex = index + 1;
 
-        const slide = document.createElement("div");
-        slide.className = "carousel-item val-slide";
-        slide.style.backgroundColor = randomColor();
-        // no more "if index === 0, add active" — title slide owns that now
+  const indicator = document.createElement("button");
+  indicator.type = "button";
+  indicator.setAttribute("data-bs-target", "#valCarousel");
+  indicator.setAttribute("data-bs-slide-to", slideIndex);
+  indicator.setAttribute("aria-label", `Slide ${slideIndex + 1}`);
+  indicators.appendChild(indicator);
+
+  const slide = document.createElement("div");
+  slide.className = "carousel-item val-slide";
+
+  const bkgImage = val.bkg;
+  const backgroundColor = randomColorWithOpacity(0.5);
+
+  slide.style.backgroundImage = `linear-gradient(${backgroundColor}, ${backgroundColor}), url(${bkgImage})`;
+  slide.style.backgroundSize = `cover`;
+  slide.style.backgroundPosition = `center, center`;
+  slide.style.backgroundRepeat = `no-repeat, no-repeat`;
+
+  // no more "if index === 0, add active" — title slide owns that now
 
         const titleEl = document.createElement("div");
         titleEl.className = "val-title";
@@ -271,13 +308,22 @@ function buildValsCarousel(vals) {
         const messageEl = document.createElement("div");
         messageEl.className = "val-message";
         messageEl.textContent = val.message;
+        messageEl.style.maxWidth = '64ch';
 
-        slide.appendChild(titleEl);
-        slide.appendChild(messageEl);
-        slide.appendChild(nameEl);
-        slide.appendChild(yearEl);
+        const textGroup = document.createElement('div');
+        textGroup.style.display = 'flex';
+        textGroup.style.flexDirection = 'column';
+        textGroup.style.alignItems = 'center';
+        textGroup.appendChild(titleEl);
+        textGroup.appendChild(messageEl);
+        textGroup.appendChild(nameEl);
+        textGroup.appendChild(yearEl);
+
+        slide.appendChild(wrapWithHighlight(textGroup, 'rgba(254, 112, 112, 0.7)'));
 
         container.appendChild(slide);
+
+
     });
 
     const carouselElement = document.getElementById("valCarousel");

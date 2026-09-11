@@ -9,7 +9,7 @@ exports.handler = async function(event) {
     try {
         const { data, error } = await supabase
             .from("vals")
-            .select("year, name, message")
+            .select("year, name, message, bkg")
             .order("year", { ascending: true });
 
         if (error) throw error;
