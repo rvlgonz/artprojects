@@ -83,7 +83,7 @@ container.innerHTML = `
         ${article.file ? `
         <div class="pdf-embed-wrapper">
             <p><a href="${article.file}" target="_blank" rel="noopener">Open PDF in a new tab &rarr;</a></p>
-            <iframe src="${article.file}" title="${article.title} PDF" width="100%" height="800" style="border: 1px solid #ced4da; border-radius: 4px;"></iframe>
+            <iframe src="${article.file}#view=FitH" title="${article.title} PDF" width="70%" height="700" style="border: 5px solid #ced4da; border-radius: 5px;"></iframe>
         </div>
         ` : ''}
     </div>

@@ -11,19 +11,21 @@ exports.handler = async function(event) {
     }
 
     try {
-        const { fileName, fileData } = JSON.parse(event.body);
+        const { password, fileName, fileData } = JSON.parse(event.body);
+
+        if (password !== process.env.SUBMIT_PASSWORD) {
+            return { statusCode: 401, body: JSON.stringify({ error: "Unauthorized" }) };
+        }
 
         if (!fileName || !fileData) {
             return { statusCode: 400, body: JSON.stringify({ error: "fileName and fileData required" }) };
         }
 
-        // fileData arrives as a data URL: "data:application/pdf;base64,...."
         const base64Payload = fileData.split(",")[1] || fileData;
         const buffer = Buffer.from(base64Payload, "base64");
 
-        // Timestamp-prefix so two uploads with the same filename don't collide
         const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
-        const storagePath = `${Date.now()}-${safeName}`;
+        const storagePath = `public/${Date.now()}-${safeName}`;
 
         const { error: uploadError } = await supabase
             .storage

@@ -114,32 +114,39 @@
         </div>
 
         <script>
-        // Set your master form password here
-        const CONFIG_PASSWORD = "Dan"; // Change this to your desired password
-
         /**
          * Gatekeeper authentication logic
          */
         function verifyPassword(event) {
-            event.preventDefault(); // Stop standard form reloading
-            
-            const passwordInput = document.getElementById('gatePassword');
-            const errorContainer = document.getElementById('gateError');
-            const gateCard = document.getElementById('gateCard');
-            const protectedCard = document.getElementById('protectedCard');
+    event.preventDefault();
 
-            if (passwordInput.value === CONFIG_PASSWORD) {
-                // Hide gate and unhide the submission form
-                errorContainer.style.display = 'none';
-                gateCard.classList.add('hidden');
-                protectedCard.classList.remove('hidden');
-            } else {
-                // Reveal error text and wipe faulty input field
-                errorContainer.style.display = 'block';
-                passwordInput.value = '';
-                passwordInput.focus();
-            }
+    const passwordInput = document.getElementById('gatePassword');
+    const errorContainer = document.getElementById('gateError');
+    const gateCard = document.getElementById('gateCard');
+    const protectedCard = document.getElementById('protectedCard');
+
+    try {
+        const response = await fetch("/.netlify/functions/check-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: passwordInput.value })
+        });
+        const data = await response.json();
+
+        if (data.valid) {
+            errorContainer.style.display = 'none';
+            gateCard.classList.add('hidden');
+            protectedCard.classList.remove('hidden');
+        } else {
+            errorContainer.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
         }
+    } catch (err) {
+        errorContainer.textContent = "Something went wrong. Try again.";
+        errorContainer.style.display = 'block';
+    }
+}
 
         /**
          * Submission logic once the form is unlocked

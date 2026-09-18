@@ -331,6 +331,7 @@ body {
 
 .meta-date {
     font-size: 0.8rem;
+    font-weight: 500;
     color: #6c757d;
     margin-bottom: 1rem;
 }
@@ -427,8 +428,8 @@ section.content-section-bio {
 }
 
 .content-section-article {
-
-      display: flex;
+    width: 100%;   /* add this line */
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -1398,6 +1399,7 @@ textarea.form-control-lg {
 
 #articleBody {
     margin-top: 0rem;
+    font-size: .9rem;
 }
 
 #articleNav {

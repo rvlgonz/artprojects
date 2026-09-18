@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Step 1: upload the PDF itself
     if (uploadArticleBtn) {
+        
         uploadArticleBtn.addEventListener("click", async function (e) {
             e.preventDefault();
 
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const response = await fetch("/.netlify/functions/upload-article-file", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ fileName: file.name, fileData: base64Data })
+                    body: JSON.stringify({ password: document.getElementById('gatePassword').value, fileName: file.name, fileData: base64Data })
                 });
 
                 const data = await response.json();
@@ -85,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
+                        password: document.getElementById('gatePassword').value,
                         FormTitle: FormTitleValue,
                         FormCategory: FormCategoryValue,
                         FormTagline: FormTaglineValue,

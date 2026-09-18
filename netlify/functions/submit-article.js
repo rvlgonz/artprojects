@@ -10,7 +10,12 @@ exports.handler = async function(event) {
         return { statusCode: 405, body: "Method not allowed" };
     }
     try {
-        const { FormTitle, FormCategory, FormTagline, FormText, FormFile, FormURL } = JSON.parse(event.body);
+        const { password, FormTitle, FormCategory, FormTagline, FormText, FormFile, FormURL } = JSON.parse(event.body);
+
+        if (password !== process.env.SUBMIT_PASSWORD) {
+            return { statusCode: 401, body: JSON.stringify({ error: "Unauthorized" }) };
+        }
+
         const { error } = await supabase
             .from("policy_articles")
             .insert([{ title: FormTitle, cat: FormCategory, tagline: FormTagline, article: FormText, file: FormFile, slug: FormURL.toLowerCase().replace(/\s+/g, '-') }]);
