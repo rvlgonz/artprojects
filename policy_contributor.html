@@ -117,7 +117,7 @@
         /**
          * Gatekeeper authentication logic
          */
-        function verifyPassword(event) {
+        async function verifyPassword(event) {
     event.preventDefault();
 
     const passwordInput = document.getElementById('gatePassword');
