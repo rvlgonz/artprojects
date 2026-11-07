@@ -149,9 +149,7 @@ class GamePiece {
   draw() {
     // be default, draw a rectangle
     context.fillStyle = this.color;
-    context.beginPath();
-    context.fillRect(this.x, this.y, this.height, this.width);
-    context.fill();
+    context.fillRect(this.x, this.y, this.width,this.height);
   }
 }
 
@@ -352,7 +350,7 @@ this.explodingImgHeight = 270;
   }
 
   //update location of player based on which arrow button is pressed. prevent movement that would be out of bounds
-  update(keycode) {
+  update(key) {
     if (!gameOver) {
       if (this.explodingTick === 150) {
         this.srcX = this.ogSrcX;
@@ -365,9 +363,9 @@ this.explodingImgHeight = 270;
         this.explodingTick++;
       }
 
-      if (keycode === 39 && this.x + this.width + this.dx <= canvas.width)
+      if (key === 'ArrowRight' && this.x + this.width + this.dx <= canvas.width)
         this.x += this.dx;
-      else if (keycode === 37 && this.x - this.dx >= 0)
+      else if (key === 'ArrowLeft' && this.x - this.dx >= 0)
         this.x -= this.dx;
       this.draw();
 
@@ -582,7 +580,7 @@ let level4 = function() {
 }
 
 let level5 = function() {
-  level = 4;
+  level = 5;
   let speed = 4;
   let enemynum = 6;
   createEnemies(speed, enemynum);
@@ -686,7 +684,7 @@ let drawRestart = function() {
 
     context.fillText("Press ENTER to try again", canvas.width / 2, canvas.height / 2 + 100);
     context.textAlign = "left";              // reset, since other draw calls assume left-aligned
-    drawRestart();
+
 }
 
 //draw the number of lives at the top of the screen along with the line separating the top portion from the game
@@ -839,21 +837,19 @@ var presStart = setInterval(drawStart, 400);
 
 /* Event Listeners */
 //spaceDown is used to ensure that the keypress event doesn't cause the function that runs when the sapce bar is pressed to be called multiple times
-let spaceDown = false;
+let keyDown = false;
 
 //sets what key is currently being pressed down (used in player's update function)
 document.addEventListener("keydown", (event) => {
-  if (!gamePaused && (event.keyCode === 39 || event.keyCode === 37))
-    activeKey = event.keyCode;
-});
-
-document.addEventListener("keypress", (event) => {
-  if (event.keyCode === 32 && spaceDown == false && player != undefined && !gamePaused && !gameOver && !gameWon) {
+  if (!gamePaused && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')){
+    activeKey = event.key;
+  }
+  if (event.key === ' ' && keyDown == false && player != undefined && !gamePaused && !gameOver && !gameWon) {
     player.addLaser();
-    spaceDown = true;
+    keyDown = true;
   }
   //press enter either before the game starts or if the game has ended
-  else if (event.keyCode === 13) {
+  else if (event.key === 'Enter') {
     // if game hasn't started, initialize and begin the game loop
     if (!gameStart) {
       clearInterval(presStart);
@@ -871,9 +867,9 @@ document.addEventListener("keypress", (event) => {
 
 //removes active key so that the player doesn't keep moving after the arrow keys have been released
 document.addEventListener("keyup", (event) => {
-  if (event.keyCode === 39 || event.keyCode === 37)
+  if (event.key === 'ArrowRight' || event.key === 'ArrowLeft')
     activeKey = -1;
-  if (event.keyCode === 32) spaceDown = false;
+  if (event.key === ' ') keyDown = false;
 });
 
 if (localStorage.getItem('siteMuted') === 'true') {

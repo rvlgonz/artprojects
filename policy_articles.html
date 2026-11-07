@@ -1,50 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>DG - Policy Database - Articles</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/dan prof.jpg" />
+        <title>Policy Database - Homepage</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/PDicon.jpg" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5..112.5,300..900;1,5..1200,87.5..112.5,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link href="css/styles_DAN.css" rel="stylesheet" />
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5..112.5,300..900;1,5..1200,87.5..112.5,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles_DAN.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        <style>
 
-<body id="page-top">
+       </style>
+
+    </head>
+
+     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="topNav">
-    <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <img class="img-fluid img-nav rounded-circle" src="assets/img/dan prof.jpg" alt="Profile" />
+    <a class="navbar-brand js-scroll-trigger" href="policy_homepage.html">
+        <img class="img-fluid img-nav rounded-circle" src="assets/img/PDicon.jpg" alt="Profile" />
     </a>
 
 <a class="nav-link nav-title-link fraunces-title" href="policy_homepage.html">
-    <h1 style="font: size 2rem;" class="m-0 fraunces-title">Policy Database</h1>
+    <h1 style="font-size:2rem" class="m-0 fraunces-title">The Policy Database</h1>
 </a>
-    <button class="navbar-toggler-bio" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="nav-search-wrapper"><input type="text" id="searchBar" placeholder="Search by title or tags..."></div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav">
-            <li class="nav-item dropdown"><a class="nav-link" href="policy_homepage.html">Home page</a></li>
-            <li class="nav-item dropdown"><a class="nav-link" href="policy_bio.html">About</a></li>
-            <li class="nav-item dropdown"><a class="nav-link" href="policy_contact.html">Contact form</a></li>
-            <li class="nav-item dropdown"><a class="nav-link" href="policy_contributor.html">Contributors submission</a></li>
-       </ul>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_homepage.html"><i class="bi bi-flower1" style="margin-right: 0.5rem; color: #6e9373;"></i>Home page</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_bio.html"><i class="bi bi-tree-fill" style="margin-right: 0.5rem; color: #6e9373;"></i>About</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contact.html"><i class="bi bi-leaf-fill" style="margin-right: 0.5rem; color: #6e9373;"></i>Contact form</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contributor.html"><i class="bi bi-feather" style="margin-right: 0.5rem; color: #6e9373;"></i>Contributors submission</a></li>
+        </ul>
     </div>
 </nav>
+
+<section>
 
 <div id="articleContent">
         <p>Loading article...</p>
     </div>
-    <div id="articleNav"></div>
+    <div id="articleNav"></div> </section>
+    <footer>
+
+                <p style="text-align: center; color: #6c757d; font-size: 0.9rem;">
+                    &copy; 2026 The Policy Database is a project of <a href="mailto:danielallangonzalez@gmail.com" target="_blank">Daniel Gonzalez</a>. All rights reserved.
+                </p>
+</footer>
 
     <script>
 document.addEventListener("DOMContentLoaded", async () => {
@@ -83,7 +98,7 @@ container.innerHTML = `
         ${article.file ? `
         <div class="pdf-embed-wrapper">
             <p><a href="${article.file}" target="_blank" rel="noopener">Open PDF in a new tab &rarr;</a></p>
-            <iframe src="${article.file}#view=FitH" title="${article.title} PDF" width="70%" height="700" style="border: 5px solid #ced4da; border-radius: 5px;"></iframe>
+            <iframe src="${article.file}#view=FitH" title="${article.title} PDF" width="90%" height="900" style="border: 5px solid #ced4da; border-radius: 5px;"></iframe>
         </div>
         ` : ''}
     </div>
@@ -140,6 +155,64 @@ container.innerHTML = `
         }
     }
 });</script>
+
+<script>const ARTICLES_PAGE = "policy_homepage.html"; // ← change to your articles page's filename
+const articlesSection = document.getElementById("danArticlesDisplay");
+
+if (!articlesSection) {
+    // ---- Any other page: send the search to the articles page on Enter ----
+    searchBar.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const query = searchBar.value.trim();
+            if (query) {
+                window.location.href = `${ARTICLES_PAGE}?q=${encodeURIComponent(query)}`;
+            }
+        }
+    });
+} else {
+    // ---- Articles page: your existing live search ----
+    let hasScrolledToArticles = false;
+
+    searchBar.addEventListener("input", (e) => {
+        const rawSearch = e.target.value.toLowerCase();
+
+        if (!hasScrolledToArticles && rawSearch.length > 0) {
+            articlesSection.scrollIntoView({ behavior: "smooth" });
+            hasScrolledToArticles = true;
+        }
+
+        const searchTerms = rawSearch.split(/[;,]/).map(term => term.trim()).filter(Boolean);
+
+        const filteredPosts = policy_articles.filter(post => {
+            const catList = post.cat.split(/[;,]/).map(cat => cat.trim().toLowerCase());
+            const titleLower = post.title.toLowerCase();
+            const taglineLower = post.tagline.toLowerCase();
+
+            const termMatches = term =>
+                catList.some(cat => cat.includes(term)) ||
+                titleLower.includes(term) ||
+                taglineLower.includes(term);
+
+            if (searchTerms.length > 1) {
+                return searchTerms.every(termMatches);
+            }
+
+            const singleTerm = searchTerms[0] || "";
+            return termMatches(singleTerm);
+        });
+
+        displayPosts(filteredPosts);
+    });
+
+    // If we arrived with ?q=..., fill the search bar and run the search
+    const incomingQuery = new URLSearchParams(window.location.search).get("q");
+    if (incomingQuery) {
+        searchBar.value = incomingQuery;
+        searchBar.dispatchEvent(new Event("input"));
+    }
+};
+</script>
 
 </body>
 </html>

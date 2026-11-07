@@ -9,7 +9,7 @@ body {
     font-weight: 200;
     font-style: normal;
     line-height: 1.6;
-    background-color: #f8f9fa;
+    background-color: #fcf9ef;
     color: #212529;
 }
 
@@ -53,6 +53,7 @@ body {
   background-size: 100%;
 }
 
+
 .navbar-toggler {
   padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
   font-size: 1.5rem;
@@ -68,6 +69,13 @@ body {
     display: block !important;
     margin-left: 1rem !important; 
 }
+
+.navbar-toggler:hover {
+  border-color: #526e56;
+  border-radius: 15px;
+  box-shadow: 0 0 0 0.2rem rgba(82, 110, 86, 0.35);
+}
+
   
   .navbar-toggler-bio {
   padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
@@ -108,11 +116,11 @@ body {
 
 }
 
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
     #topNav {
-        flex-wrap: wrap; /* restore wrapping only where you actually want it, e.g. mobile */
+        flex-wrap: wrap; /* restore wrapping only where you actually want it, e.g. mobile
     }
-}
+} */
 
 .navbar-collapse {
     display: none !important;
@@ -127,9 +135,17 @@ body {
   height: auto;
 }
 
+.img-fluid.img-bio {
+   border: .25rem solid rgba(83, 108, 84, .5);
+   width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  }
+
 .rounded-circle {
   border-radius: 50% !important;
 }
+
 
 .navbar-brand {
   padding-top: .5rem;
@@ -182,9 +198,9 @@ body {
     width: auto;
     min-width: 200px;
     background-color: #efefef;   /* match navbar, or use a contrasting dropdown color */
-    border: .15rem solid rgba(0, 0, 0, 0.25);
-    border-radius: 0.25rem;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    border: .15rem solid #6e9373;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     padding: 0.5rem 0;
     z-index: 1000;
 }
@@ -205,23 +221,29 @@ body {
 }
 
 .navbar-collapse .nav-link {
+    color: #000000;
     padding: 0.75rem 1.25rem;
     white-space: nowrap;
 }
 
-.navbar-collapse .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+/*>*/
+
+/* .navbar-collapse .nav-item:hover {
+    background-color: rgba(82, 110, 86, 0.35);
+} */
+
+.navbar-collapse .nav-item .bi {
+    display: none;
 }
 
+.navbar-collapse .nav-item:hover .bi {
+    display: inline-block;
+}
 
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
     color: #1a1a1a;
-}
-
-.logo span {
-    color: #0076ff;
 }
 
 #searchBar {
@@ -312,7 +334,7 @@ body {
 
 .cat {
     background-color: #6e9373 ;
-    color: #fffddb ;
+    color: rgb(255, 253, 219) ;
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -366,9 +388,54 @@ body {
 }
 
 
-@media (max-width: 576px) {
+@media (max-width: 992px) {
+    :root {
+        --navbar-height: 8rem;   /* first row (4.5rem) + second row; adjust if needed */
+    }
+
+    #topNav {
+        height: auto;
+        padding-bottom: 0.5rem;
+    }
+
+    /* An invisible full-width item that forces a line break after the brand */
+    #topNav::after {
+        content: "";
+        order: 1;
+        flex-basis: 100%;
+        height: 0;
+    }
+
+    /* Row 1: brand (and the centered title) */
+    #topNav .navbar-brand {
+        order: 0;
+    }
+
+    /* Row 2: search bar, then toggler */
     .nav-search-wrapper {
-        display: none; /* or move search bar into the dropdown collapse menu instead */
+        display: flex;
+        order: 2;
+        flex: 1 1 auto;          /* fill the space left of the toggler */
+        justify-content: flex-start;
+        margin-left: 0;
+        height: auto;
+        padding-left: 1rem;
+    }
+
+    #searchBar {
+        width: 100%;
+    }
+
+    .navbar-toggler {
+        order: 3;
+        margin-left: 0.75rem !important;
+        margin-right: 1rem !important;
+    }
+
+    /* Keep the centered title on the first row */
+    #topNav .nav-title,
+    .nav-title-link {
+        top: 2.25rem;
     }
 }
 
@@ -377,10 +444,14 @@ body {
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
+  color: #fcf9ef;
   font-variation-settings:
     "SOFT" 0,
     "WONK" 0;
 }
+
+.fraunces-title.head {
+  color:#000000;}
 
 ul li a {
   text-decoration: none;
@@ -417,14 +488,19 @@ section.content-section-bio {
     padding-top: var(--navbar-height);
 }
 
+#info {
+    padding-top: 0rem;
+    margin-top: 0rem;
+}
+
 .content-section-content,
 .content-section-background,
 .content-section-contact, .content-section-participate {
-  width: 70%;
+  width: 80%;
 }
 
 .content-section-content, .content-section-participate {
-    padding-top: .5rem;
+    padding-top: 0rem;
 }
 
 .content-section-article {
@@ -464,17 +540,18 @@ section.content-main {
 
 .social-links-row {
     display: flex;
-flex-direction: row;
-      align-items: center;
-      justify-content: center;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
     gap: 2rem;
     flex-wrap: wrap; /* lets them drop to a new line on narrow screens instead of squeezing/overflowing */
-    padding-top: 2rem;
-    padding-bottom:2rem;
+    padding-top: 0rem;
+    padding-bottom:0rem;
 }
 
-.social-links-row p {
-    margin: 0; /* remove default <p> margin so flex spacing (gap) is the only thing controlling space between them */
+.social-links-row > p {
+    flex: 1 1 0;        /* all three columns get the same width */
+    text-align: flex-start;
 }
 
 .scroll-indicator {
@@ -491,6 +568,16 @@ flex-direction: row;
     animation: bounce 2s infinite;
 }
 
+
+.bio-scroll h5 {
+  margin-bottom: 0.25rem;
+}
+
+.content-section-content {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 @keyframes bounce {
     0%, 20%, 50%, 80%, 100% {
         transform: translateY(0);
@@ -504,7 +591,7 @@ flex-direction: row;
 }
 
 html {
-    scroll-padding-top: 4.5rem;
+    scroll-padding-top: var(--navbar-height);
 }
 
 .btn {
@@ -1486,3 +1573,4 @@ margin-top: 6rem;
     align-items: center;
     justify-content: center;
 }
+
