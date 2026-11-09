@@ -173,7 +173,7 @@ body {
     border: 0.15rem solid rgba(255, 255, 255, 0.2);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 500px) {
   #topNav .img-nav{
     display: none;
   }}
@@ -392,7 +392,7 @@ body {
     margin-left: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
     #searchBar {
         font-size: 10px;
     }
