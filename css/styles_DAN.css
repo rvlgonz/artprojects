@@ -173,6 +173,11 @@ body {
     border: 0.15rem solid rgba(255, 255, 255, 0.2);
 }
 
+@media (max-width: 720px) {
+  #topNav .img-nav{
+    display: none;
+  }}
+
 #topNav .nav-title {
     position: absolute;
     left: 50%;
@@ -387,6 +392,11 @@ body {
     margin-left: auto;
 }
 
+@media (max-width: 768px) {
+    #searchBar {
+        font-size: 10px;
+    }
+}
 
 @media (max-width: 992px) {
     :root {

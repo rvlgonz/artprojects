@@ -5,9 +5,10 @@
     <link href="https://fonts.googleapis.com/css?family=Audiowide|Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" href="SpaceInvaders-master/Styles/main.css">
     <title>crab invaders</title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon (sd).ico" />
+    <link rel="icon" type="image/x-icon" href="assets/img/PDicon.jpg" />
     <link href="css/styles_DAN.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--link rel="icon" href="http://www.unixstickers.com/image/cache/data/stickers/spaceinvaders/Space-medium-invader.sh-600x600.png"-->
   
      <style>
@@ -38,6 +39,10 @@
             font-family: sans-serif;
         }
 
+        #mobilePopup {
+    z-index: 10000;
+}
+
         /* X buttton */
         .close-btn {
             position: absolute;
@@ -54,9 +59,10 @@
             color: #f00;
         }
 
-        .popup-box h1, h2, h3, h4, h5, h6 {
-          font-family: 'Handjet', light;
-        }
+.popup-box h1, .popup-box h2, .popup-box h3,
+.popup-box h4, .popup-box h5, .popup-box h6 {
+    font-family: 'Handjet', light;
+}
 
         #mute-btn{
           font-family: 'Handjet', regular;
@@ -102,6 +108,13 @@
 </nav>
 
         <!-- Popup -->
+
+    <div id="mobilePopup" class="popup-overlay">
+        <div class="popup-box">
+            <h1>At the moment Forest Explorer is only available on desktop. Please check it out there!</h1>
+            </div>
+    </div>
+
     <div id="welcomePopup" class="popup-overlay">
         <div class="popup-box">
             <button id="closePopup" class="close-btn">&times;</button>
@@ -175,25 +188,32 @@
 
     <script>
         // Execute code as soon as the DOM tree is built
-        document.addEventListener("DOMContentLoaded", () => {
-            const popup = document.getElementById("welcomePopup");
-            const closeBtn = document.getElementById("closePopup");
+document.addEventListener("DOMContentLoaded", () => {
+    const mobilePopup = document.getElementById("mobilePopup");
+    const popup = document.getElementById("welcomePopup");
+    const closeBtn = document.getElementById("closePopup");
 
-            // Show the popup overlay
-            popup.style.display = "flex";
+    const isMobile = window.matchMedia("(max-width: 500px)");
 
-            // Hide the popup when clicking X
-            closeBtn.addEventListener("click", () => {
-                popup.style.display = "none";
-            });
+    if (isMobile.matches) {
+        // phones: show only the "desktop only" message
+        mobilePopup.style.display = "flex";
+    } else {
+        // everything else: show the normal welcome popup
+        popup.style.display = "flex";
+    }
 
-            // Hide the popup when clicking outside the box
-            popup.addEventListener("click", (event) => {
-                if (event.target === popup) {
-                    popup.style.display = "none";
-                }
-            });
-        });
+    closeBtn.addEventListener("click", () => {
+        popup.style.display = "none";
+    });
+
+    popup.addEventListener("click", (event) => {
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    });
+});
+
     </script>
     <script type="text/javascript" src="SpaceInvaders-master/Scripts/background_garden-game.js"></script>
     <script type="text/javascript" src="SpaceInvaders-master/Scripts/garden-game.js"></script>
