@@ -6,6 +6,31 @@ let canvas = document.querySelector("#game-canvas");
 let context = canvas.getContext("2d");
 
 let spriteSheet = "SpaceInvaders-master/Images/sprites.png";
+let gardenSheetPath = "SpaceInvaders-master/Images/sprites_garden.png";
+let gardenSheet = new Image();
+gardenSheet.src = gardenSheetPath;
+
+/*  x, y, width (w), height (h) */
+let sprites = {
+  flower: [
+    { x: 24,  y: 31,  w: 152, h: 199 },   // red berries
+    { x: 205, y: 31,  w: 152, h: 199 },   // purple berries
+    { x: 389, y: 36,  w: 147, h: 194 },   // plain
+    { x: 561, y: 45,  w: 137, h: 194 },   // red
+    { x: 721, y: 46,  w: 138, h: 193 },   // yellow
+    { x: 879, y: 45,  w: 140, h: 198 },   // purple
+    { x: 28,  y: 251, w: 140, h: 196 },   // orange
+    { x: 205, y: 251, w: 140, h: 197 }    // blue
+  ],
+  trash: [
+    { x: 13,  y: 473, w: 173, h: 197 },   // paper
+    { x: 214, y: 475, w: 112, h: 198 },   // can
+    { x: 369, y: 470, w: 146, h: 198 }    // chips bag
+  ],
+  chaser:    { x: 21,  y: 726, w: 266, h: 199 },   // red
+  player:    { x: 312, y: 725, w: 265, h: 199 },   // green
+  playerHit: { x: 606, y: 724, w: 265, h: 199 }    // green !!!
+};
 
 let ded = "  _____" + "\n" +
 " /     \\" + "\n" +
@@ -28,6 +53,9 @@ let popupOpen = false;
 
 let backgroundImage = new Image();
 backgroundImage.src = "SpaceInvaders-master/Images/forest.png";
+
+let userPaused = false;
+
 // let enemySprites = [
 //   {
 //     char: "SmaInv",       // green
@@ -115,6 +143,29 @@ let drawBackground = function() {
   }
 }
 
+let drawSprite = function(frame, x, y, width, height) {
+  if (gardenSheet.complete && gardenSheet.naturalWidth !== 0) {
+    context.drawImage(gardenSheet, frame.x, frame.y, frame.w, frame.h, x, y, width, height);
+    return true;
+  }
+  return false;
+}
+
+let drawPaused = function() {
+  if (userPaused) {
+    context.fillStyle = "rgba(0, 0, 0, 0.5)";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.font = "3rem 'Handjet', regular";
+    context.fillStyle = "white";
+    context.textAlign = "center";
+    context.fillText("Paused", canvas.width / 2, canvas.height / 2);
+    context.font = "1.5rem 'Handjet', regular";
+    context.fillText("Press P to keep exploring", canvas.width / 2, canvas.height / 2 + 40);
+    context.textAlign = "left";
+  }
+}
+
 let pathWidth = 100;
 let pathX = (canvas.width-100) / 2;   // calculated from canvas.width and pathWidth
 let pathTop = 45;
@@ -188,16 +239,24 @@ class GamePiece {
 
 class Item extends GamePiece {
   constructor(x, y, width, height, type) {
-    let color = littleThings.find(item => item.name === type).color;  // look up this type's color
-    super(x, y, 0, 0, width, height, color);   // GamePiece stores position, size, color (dx/dy = 0: items don't move)
-    this.type = type;                           // "flower" or "trash"
-    this.collected = false;                     // not collected yet
+    let color = littleThings.find(item => item.name === type).color;
+    super(x, y, 0, 0, width, height, color);
+    this.type = type;
+    this.collected = false;
+
+    // pick a random picture from this type's list
+    let options = sprites[type];
+    this.frame = options[Math.floor(Math.random() * options.length)];
+
+    // keep the picture's shape: work out the width from the height
+    this.width = Math.round(height * this.frame.w / this.frame.h);
   }
+
   draw() {
-    if (this.collected) {
-      return;            // collected: draw nothing
+    if (this.collected) return;
+    if (!drawSprite(this.frame, this.x, this.y, this.width, this.height)) {
+      super.draw();
     }
-    super.draw();        // otherwise draw the rectangle GamePiece knows how to draw
   }
 }
 
@@ -206,12 +265,19 @@ class Chaser extends GamePiece {
   constructor(x, y, speed, width, height) {
     super(x, y, speed, speed, width, height, "red");
   }
-    update() {
+
+  update() {
     if (player.getX() > this.x) this.x += this.dx;
     else if (player.getX() < this.x) this.x -= this.dx;
 
     if (player.getY() > this.y) this.y += this.dy;
     else if (player.getY() < this.y) this.y -= this.dy;
+  }
+
+  draw() {
+    if (!drawSprite(sprites.chaser, this.x, this.y, this.width, this.height)) {
+      super.draw();
+    }
   }
 }
 
@@ -302,7 +368,7 @@ if (this.lasers.length < this.laserTotal) {
 
   //if an image for the sprite hasn't been passed in, draw a rectangle. otherwise, draw the sprite
   draw() {
-    if (this.sprite === null) {
+    if (this.sprite === null || !this.sprite.complete || this.sprite.naturalWidth === 0) {
       super.draw();
     }
     else {
@@ -370,16 +436,16 @@ class Player extends Character {
 
     super(x, y, dx, dx, width, height, color, 2, false, 9, imgSrc, srcX, srcY, srcWidth, srcHeight);
 
-    this.lives = 3;
+    this.lives = 4;
     this.ogSrcX = srcX;
     this.ogSrcY = srcY;
     this.ogSrcWidth = srcWidth;
     this.ogSrcHeight = srcHeight;
     this.explodingImg = null;
-    this.explodingImgX = 293;
-    this.explodingImgY = 571;
-    this.explodingImgWidth = 219;
-    this.explodingImgHeight = 270;
+   this.explodingImgX = sprites.playerHit.x;
+    this.explodingImgY = sprites.playerHit.y;
+    this.explodingImgWidth = sprites.playerHit.w;
+    this.explodingImgHeight = sprites.playerHit.h;
     this.explodingTick = 0;
   }
 
@@ -609,14 +675,14 @@ let levels = [];
 let createItems = function(numFlowers, numTrash) {
   items = [];
   for (let i = 0; i < numFlowers; i++) {
-    let x = randomBetween(0, canvas.width - 30);
-    let y = randomBetween(45, canvas.height - 30);
-    items.push(new Item(x, y, 30, 30, "flower"));
+    let x = randomBetween(0, canvas.width - 40); //from 30
+    let y = randomBetween(45, canvas.height - 40); //from 30
+    items.push(new Item(x, y, 50, 50, "flower"));
   }
   for (let i = 0; i < numTrash; i++) {
-    let x = randomBetween(0, canvas.width - 30);
-    let y = randomBetween(45, canvas.height - 30);
-    items.push(new Item(x, y, 30, 30, "trash"));
+    let x = randomBetween(0, canvas.width - 40); //from 30
+    let y = randomBetween(45, canvas.height - 40); //from 30
+    items.push(new Item(x, y, 50, 50, "trash"));
   }
 }
 
@@ -629,7 +695,7 @@ let level1 = function() {
   trashGoal = 3;
   console.log("level1 ran, flowerGoal is", flowerGoal);
   createItems(flowerGoal, trashGoal);
-  chaser = new Chaser(10, 55, 1, 30, 30);
+  chaser = new Chaser(10, 55, 1, canvas.width / 10, canvas.height / 12);
 }
 
 let level2 = function() {
@@ -639,7 +705,7 @@ let level2 = function() {
   trashCollected = 0;
   trashGoal = 5; 
   createItems(flowerGoal, trashGoal);
-  chaser = new Chaser(10, 55, 1, 30, 30);
+  chaser = new Chaser(10, 55, 1, canvas.width / 10, canvas.height / 12);
 }
 
 let level3 = function() {
@@ -647,9 +713,9 @@ let level3 = function() {
   flowersExamined = 0;
   flowerGoal = 5;
   trashCollected = 0;
-  trashGoal = 4; 
+  trashGoal = 5; 
   createItems(flowerGoal, trashGoal);
-  chaser = new Chaser(10, 55, 1, 30, 30);
+  chaser = new Chaser(10, 55, 1, canvas.width / 10, canvas.height / 12);
 }
 
 let level4 = function() {
@@ -659,7 +725,7 @@ let level4 = function() {
   trashCollected = 0;
   trashGoal = 5; 
   createItems(flowerGoal, trashGoal);
-  chaser = new Chaser(10, 55, 1, 30, 30);
+  chaser = new Chaser(10, 55, 1, canvas.width / 10, canvas.height / 12);
 }
 
 levels.push(level1);
@@ -681,11 +747,12 @@ let init = function() {
   messageTimer = 0;
   let playerWidth = canvas.width / 10;
   let playerHeight = canvas.height / 12;
-  player = new Player((canvas.width / 2) - 25, 4, playerWidth, playerHeight, spriteSheet, 31, 680, 219, 161);
+  player = new Player((canvas.width / 2) - 25, 4, playerWidth, playerHeight, gardenSheetPath, sprites.player.x, sprites.player.y, sprites.player.w, sprites.player.h);
   gamePaused = false;
   gamePausedDelay = 0;
   popupOpen = false;
   levelPopup.style.display = "none";
+  userPaused = false;
 }
 
 let findTouchedItem = function() {
@@ -715,7 +782,7 @@ let tryAction = function(action) {
   }
   else if (action === "pickup" && item.type === "flower") {
     item.collected = false;
-    message = "Please don't pick the flowers, flowers are meant to grow!";
+    message = "Please don't pick the plants, plants are meant to grow!";
     messageTimer = 200;
   }
     else if (action === "examine" && item.type === "trash") {
@@ -824,8 +891,7 @@ let drawRestart = function() {
 }
 
 //draw the number of lives at the top of the screen along with the line separating the top portion from the game
-let life = new Image();
-life.src = spriteSheet;
+
 let drawLives = function() {
   //context.beginPath();
   context.moveTo(0, 45);
@@ -835,10 +901,10 @@ let drawLives = function() {
 
   context.font = "2rem 'Handjet', regular";
   context.fillStyle = "white";
-  context.fillText("Lives", canvas.width - 200, 30);
+  context.fillText("Energy:", canvas.width - 250, 30);
 
   for (let i = 0; i < player.getLives(); i++) {
-    context.drawImage(life, 31, 680, 219, 161, canvas.width - 130 + (i * 40), 8, 30, 25);
+        drawSprite(sprites.player, canvas.width - 160 + (i * 40), 10, 32, 24);
   }
 }
 
@@ -846,7 +912,7 @@ let drawLives = function() {
 let drawScore = function() {
   context.font = "2rem 'Handjet', regular";
   context.fillStyle = "white";
-  context.fillText(`Flowers: ${flowersExamined}/${flowerGoal}`, 10, 30);
+  context.fillText(`Plants: ${flowersExamined}/${flowerGoal}`, 10, 30);
   context.fillText(`Trash: ${trashCollected}/${trashGoal}`, 225, 30);
 }
 
@@ -882,7 +948,7 @@ let checkGamePaused = function() {
       gamePausedDelay++;
       context.font = "2.5rem 'Handjet', regular";
       context.fillStyle = "white";
-      context.fillText(`Lives: ${player.getLives()}`, canvas.width / 2 - 160, canvas.height / 2);
+      context.fillText(`Energy level: ${player.getLives()}`, canvas.width / 2 - 160, canvas.height / 2);
     }
     else {
       gamePausedDelay = 0;
@@ -954,7 +1020,10 @@ let closeLevelPopup = function() {
 
   levelPopup.style.display = "none";
   popupOpen = false;
-  levelPopupButton.blur();
+    window.addEventListener("blur", () => {
+    keys = {};
+    if (gameStart && !gameOver && !gameWon) userPaused = true;
+  });
   player.setX((canvas.width / 2) - 25);
   player.setY(canvas.height - player.getHeight());
   level++;
@@ -965,12 +1034,11 @@ let closeLevelPopup = function() {
 let gameLoop = function() {
   requestAnimationFrame(gameLoop);
   drawBackground();
-  //drawPath();
   for (let i = 0; i < items.length; i++) {
     items[i].draw();
   }
   chaser.draw();
-  if (!gameWon && !gameOver && !popupOpen) {
+  if (!gameWon && !gameOver && !popupOpen && !userPaused) {
     player.update();
     if (!gamePaused) {
       chaser.update();
@@ -986,6 +1054,7 @@ let gameLoop = function() {
   checkGamePaused();
   endOfLevelCheck();
   checkGameOver();
+  drawPaused();
 }
 
 
@@ -1007,6 +1076,12 @@ document.addEventListener("keydown", (event) => {
     }
     return;
   }
+    if (event.key === 'p' && !event.repeat && gameStart && !gameOver && !gameWon) {
+    userPaused = !userPaused;
+    keys = {};
+    return;
+  }
+  if (userPaused) return;
   if (!gamePaused && (event.key === 'ArrowRight' || event.key === 'ArrowLeft' || event.key === 'ArrowDown' || event.key === 'ArrowUp')){
     keys[event.key] = true;
   }
@@ -1034,7 +1109,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key === 'e' && !event.repeat && playing) {
     tryAction("examine");
   }
-  if (event.key === 't' && !event.repeat && playing) {
+  if (event.key === 'q' && !event.repeat && playing) {
     tryAction("pickup");
   }
 
@@ -1052,16 +1127,16 @@ if (localStorage.getItem('siteMuted') === 'true') {
   setMuted(true);
 }
 
-let muteBtn = document.querySelector('#mute-btn');
+// let muteBtn = document.querySelector('#mute-btn');
 
-let updateMuteButton = function() {
-  muteBtn.textContent = muted ? '🔇 Let it caw' : '🔊 Mute the game sounds';
-}
+// let updateMuteButton = function() {
+//   muteBtn.textContent = muted ? '🔇 Let it caw' : '🔊 Mute the game sounds';
+// }
 
-muteBtn.addEventListener('click', () => {
-  setMuted(!muted);
-  updateMuteButton();
-});
+// muteBtn.addEventListener('click', () => {
+//   setMuted(!muted);
+//   updateMuteButton();
+// });
 
-updateMuteButton(); // set correct label on load, in case a saved preference was restored
-window.addEventListener("blur", () => { keys = {}; });
+// updateMuteButton(); // set correct label on load, in case a saved preference was restored
+// window.addEventListener("blur", () => { keys = {}; });

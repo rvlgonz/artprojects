@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="SpaceInvaders-master/Styles/main.css">
     <title>crab invaders</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon (sd).ico" />
+    <link href="css/styles_DAN.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!--link rel="icon" href="http://www.unixstickers.com/image/cache/data/stickers/spaceinvaders/Space-medium-invader.sh-600x600.png"-->
   
      <style>
@@ -28,7 +30,7 @@
             background-color: #fff;
             padding: 30px;
             border-radius: 8px;
-            max-width: 500px;
+            max-width: 700px;
             width: 90%;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -71,19 +73,46 @@
 
   </head>
   <body>
+    
     <canvas id="background-canvas"></canvas>
     <canvas id="game-canvas" width="700" height="600"></canvas>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="topNav">
+    <a class="navbar-brand js-scroll-trigger" href="policy_homepage.html">
+        <img class="img-fluid img-nav rounded-circle" src="assets/img/PDicon.jpg" alt="Profile" />
+    </a>
+
+<a class="nav-link nav-title-link fraunces-title" href="policy_homepage.html">
+    <h1 style="font-size:2rem" class="m-0 fraunces-title">The Policy Database</h1>
+</a>
+    <div class="nav-search-wrapper"><!--input type="text" id="searchBar" placeholder="Search by title or tags..."></div-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_homepage.html"><i class="bi bi-flower1" style="margin-right: 0.5rem; color: #6e9373;"></i>Home page</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_bio.html"><i class="bi bi-tree-fill" style="margin-right: 0.5rem; color: #6e9373;"></i>About</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contact.html"><i class="bi bi-leaf-fill" style="margin-right: 0.5rem; color: #6e9373;"></i>Contact form</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="policy_contributor.html"><i class="bi bi-feather" style="margin-right: 0.5rem; color: #6e9373;"></i>Contributors submission</a></li>
+            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href="garden_game.html"><i class="bi bi-controller" style="margin-right: 0.5rem; color: #6e9373;"></i>Nature Explorer</a></li>
+        </ul>
+    </div>
+</nav>
 
         <!-- Popup -->
     <div id="welcomePopup" class="popup-overlay">
         <div class="popup-box">
             <button id="closePopup" class="close-btn">&times;</button>
+            <h4>Engaging with the environment should be fun, even while doing the serious work of designing policy.<br>If you need a break, we hope you might enjoy this game we built! </h4>
             <h1>You are a forest ranger, out exploring on your day off.</h1>
-            <h2>Press " E " to examine each flower.</h2>
-            <h2>Press " T " to pick up trash and help keep the forest clean.</h2>
+            <h2>Press " <span style="color:#852160">E</span> " to examine each <span style="color:#852160">plant</span>.</h2>
+            <h2>Press " <span style="color:#533b03">Q</span> " to pick up <span style="color:#533b03">trash</span> and help keep the forest clean.</h2>
+            <h2>Press " <span style="color:#1e6e77">P</span> " to <span style="color:#1e6e77">pause the game</span>. Even rangers need a break!</h2>
             <h3>Try to avoid the other walkers, they'll trap you in conversation and you'll never get anything done!</h3>
             <!--button id="mute-btn">🔊</button-->
-            <h5 style="font-size: 16px;">This game is adapted from <a href="https://github.com/yojoecool/SpaceInvaders">yojoecool's SpaceInvader program.</a></h5><h5 style="font-size: 16px;">Shoulders of giants and all. Many thanks!</h5>
+            <h5 style="font-size: 12px;">This game is adapted from <a href="https://github.com/yojoecool/SpaceInvaders">yojoecool's SpaceInvader program.</a><br>Shoulders of giants and all. Many thanks!</h5>
         </div>
     </div>
 
@@ -91,8 +120,42 @@
     <div class="popup-box">
 
         <div class="level-content" id="levelContent1">
-            <h3>Level 1 complete!</h3>
-            <p>Write anything you like here...</p>
+            <h2>Level 1 complete!</h2>
+            <h3>You examined 4 flowers and cleared 3 pieces of trash!</h3>
+            <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/lilium_columbianum.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;"> Tiger lily (lilium columbianum!) In addition to being beautiful, lilium columbianum can serve culinary purposes and has been traditionally gathered and used as flavoring by the Coast Salish, Nuu-chah-nulth, and other indigenous groups of the Pacific Northwest.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/little_bluestem.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;"> Little bluestem (schizachyrium scoparium!) Little bluestem is a prairie grass most commonly found in the US midwest and the Texas grasslands.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/spruce.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;"> Spruce trees! A member of the genus picea, spruce trees are identifiable by their pulvini -- small peg-like structures to which the needles attach that remain on the branch after needle shedding.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/duckweeds.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;"> Duckweed (lemnoideae!) Duckweed, also called water lentils, free float on the surface of fresh water and wetlands. They were identified by NASA's Caves of Mars project as a potential crop for extraterrestrial cultivation. </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/trash.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;">The United States generates 292.4 million tons of municipal solid waste each year, averaging about 4.9 pounds of trash per person daily (US EPA.)</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/oyster.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;"> Oysters play a valuable role in an aquatic ecosystem, filtering water and providing habitat for marine life like fish, crabs, and small invertebrates. Due to overfishing and habitat loss, oyster populations have declined markedly in some areas, like the Chesapeake Bay where population was down 90% until The Chesapeake Bay Foundation and other groups took on their restoration efforts. According to the Chesapeake Oyster Alliance, by 2022, 2.5 billion new oysters were introduced to the bay!</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem; padding-bottom: 1.5rem;">
+            <img class="rounded-circle" src="assets/img/great_green_wall.jpg" alt="Profile"
+                style="width: 100px; height: 100px; flex-shrink: 0;" />
+             <p style="margin: 0;"> In 2007, the African Union launched an initiative to build the Great Green Wall, a massive tree planting project that would cross 22 different countries, restore 100 million hectares of deforested or degraded land, and sequester 250 million tons of carbon. It's due to be completed by 2030.</p>
+            </div>
         </div>
 
         <div class="level-content" id="levelContent2">
@@ -133,6 +196,7 @@
     </script>
     <script type="text/javascript" src="SpaceInvaders-master/Scripts/background_garden-game.js"></script>
     <script type="text/javascript" src="SpaceInvaders-master/Scripts/garden-game.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
