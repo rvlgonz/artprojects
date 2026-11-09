@@ -173,11 +173,6 @@ body {
     border: 0.15rem solid rgba(255, 255, 255, 0.2);
 }
 
-@media (max-width: 500px) {
-  #topNav .img-nav{
-    display: none;
-  }}
-
 #topNav .nav-title {
     position: absolute;
     left: 50%;
@@ -392,11 +387,6 @@ body {
     margin-left: auto;
 }
 
-@media (max-width: 500px) {
-    #searchBar {
-        font-size: 10px;
-    }
-}
 
 @media (max-width: 992px) {
     :root {
@@ -446,6 +436,15 @@ body {
     #topNav .nav-title,
     .nav-title-link {
         top: 2.25rem;
+    }
+
+    #topNav .img-nav {
+        display: none;
+    }
+    
+    #searchBar {
+        width: 100%;
+        font-size: 16px; /* 16px or more stops iOS from zooming on tap */
     }
 }
 
@@ -646,7 +645,7 @@ html {
     transition: color 0.2s ease;
 }
 
-------------------------------------------------------------
+/* ------------------------------------------------------------*/
 
 .form-label {
   margin-bottom: 0.5rem;
@@ -1514,7 +1513,7 @@ margin-top: 6rem;
 }
 
 
-------------------------------------
+/* ------------------------------------------------------------*/
 
         input[type="password"],
         input[type="text"],
@@ -1568,7 +1567,7 @@ margin-top: 6rem;
     width: 70%;
 }
 
-------------------------------------
+/* ------------------------------------------------------------*/
 
 .article-body {
     padding-bottom:2rem;
